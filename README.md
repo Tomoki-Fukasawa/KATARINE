@@ -13,16 +13,65 @@
 |birth_day|date|null:false|
 
 ###Association
+-has_many: boards
+-has_many: comments
+
+-has_many:friend_ship
+-has_many:friend,through:friend_ship
+-has_many:messages
+
 -has_many :items
--has_many :give
--has_many :take
+-has_many :gives
+-has_many :takes
 
 -has_one_attached:user-image
 
+## COMMENT_BOARD
+## board
+|Column |Type |Options|
+|-------|-----|-------|
+|name|string|null:false|
+|description|text| |
+|user|references|null: false, foreign_key|
+###Association
+-belongs_to: user
+-has_many:comments 
+
+
+## comment
+|Column |Type |Options|
+|-------|-----|-------|
+|content|text|null:false|
+|user|references|null: false, foreign_key|
+|board|references|null: false, foreign_key|
+###Association
+-belongs_to: user
+-belongs_to: board
+
+## FRIEND_CHAT
+## friend_ship
+|Column |Type |Options|
+|-------|-----|-------|
+|user|references|null: false, foreign_key|
+|friend|references|null: false, foreign_key|
+
+###Association
+-belongs_to: user
+-belongs_to: friend
+
+## message
+|Column |Type |Options|
+|-------|-----|-------|
+|user|references|null: false, foreign_key|
+|friend|references|null: false, foreign_key|
+###Association
+-belongs_to: user
+-belongs_to: friend
+
+## ITEM_GIVE_TAKE
 ## items table
 |Column |Type |Options|
 |-------|-----|-------|
-
 |item_name|string|null:false|
 |item_script|text|null:false|
 |category_id|integer|null: false|
@@ -42,24 +91,26 @@
 ## gives table
 |Column |Type |Options|
 |-------|-----|-------|
-|item|references| null: false, foreign_key|
-|user|references|null: false, foreign_key|
+|sender_id|references|null: false, foreign_key|
+|receiver_id|references|null: false, foreign_key|
+|item_id|references| null: false, foreign_key|
 
-###Association
--belongs_to :user
--belongs_to :item
+##Association
+-belongs_to:sender,class_name:'User'
+-belongs_to:receiver,class_name:'User'
+-belongs_to:item
 
 
 ## takes table
 |Column |Type |Options|
 |-------|-----|-------|
-|item|references| null: false, foreign_key|
-|user|references|null: false, foreign_key|
+|receiver_id|references|null: false, foreign_key|
+|item_id|references| null: false, foreign_key|
 
-###Association
--belongs_to :user
--belongs_to :item
--has_one :address
+##Association
+-belongs_to:receiver,class_name:'User'
+-belongs_to:item
+-has_one: address
 
 ## addresses table
 |Column |Type |Options|
@@ -74,5 +125,4 @@
 
 ##Association
 -belongs_to :take
-
 
