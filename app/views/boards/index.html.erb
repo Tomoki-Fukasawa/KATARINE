@@ -1,0 +1,17 @@
+<h1>KATARINE</h1>
+
+<%= link_to '掲示板を立てる', '/boards/new' %>
+
+<% @boards.each do |board| %>
+  <div class="board">
+    <div class="board_title">
+      <%= board.title %>
+    </div>
+    <div class="board_content">
+      <%= board.content %>
+    </div>
+    <div class="board_date">
+      <%= board.created_at %>
+    </div>
+  </div>
+<% end %>

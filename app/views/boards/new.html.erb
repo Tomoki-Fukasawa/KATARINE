@@ -1,0 +1,6 @@
+<h1>新規投稿ページ</h1>
+<%= form_with(model: @board, local: true) do |form| %>
+  <%= form.text_field :title %>
+  <%= form.text_field :description %>
+  <%= form.submit '掲示板を公開する' %>
+<% end %>
