@@ -53,20 +53,23 @@
 |Column |Type |Options|
 |-------|-----|-------|
 |user|references|null: false, foreign_key|
-|friend|references|null: false, foreign_key|
+|board|references|null: false, foreign_key|
 
 ###Association
 -belongs_to: user
--belongs_to: friend
+-belongs_to: friend,class_name:'User'
+-has_many:messages
 
 ## message
 |Column |Type |Options|
 |-------|-----|-------|
+|content|text|null: false|
 |user|references|null: false, foreign_key|
-|friend|references|null: false, foreign_key|
+|friend_ship|references|null: false, foreign_key|
 ###Association
 -belongs_to: user
--belongs_to: friend
+-belongs_to: friend,class_name:'User'
+-belongs_to: friend_ship
 
 ## ITEM_GIVE_TAKE
 ## items table
