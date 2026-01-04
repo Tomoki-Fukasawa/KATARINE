@@ -11,6 +11,22 @@
   </head>
 
   <body>
+    <header class="header">
+      <div class="headerbar">
+        <div class="app_logo"><a href="/">KATARINE</a></div>
+        <% if user_signed_in?%>
+          <div class="user_area_on">
+            <%= link_to "ログアウト" %>
+            <%= link_to "マイページ" %>
+          </div>
+        <% else %>
+          <div class="user_area_off">
+            <%= link_to "ログイン" %>
+            <%= link_to "新規登録" %>
+          </div>
+        <% end %>
+      </div>
+    </header>
     <%= yield %>
   </body>
 </html>

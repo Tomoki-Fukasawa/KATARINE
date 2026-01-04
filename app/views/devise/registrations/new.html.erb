@@ -1,0 +1,56 @@
+<h2>Sign up</h2>
+
+<%= form_with model: @user, url: new_registration_path, id:'new_user', class:'new_user',local: true do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :nickname %><em>(6 characters maximum)</em><br />
+    <%= f.text_field :nickname, autofocus: true,maxlength: "6"%>
+  </div>
+  
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name_kanji %><br />
+    <%= f.text_field :last_name_kanji %>
+  </div>
+  <div class="field">
+    <%= f.label :first_name_kanji %><br />
+    <%= f.text_field :first_name_kanji %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name_kana %><br />
+    <%= f.text_field :last_name_kana %>
+  </div>
+  <div class="field">
+    <%= f.label :first_name_kana %><br />
+    <%= f.text_field :first_name_kana %>
+  </div>
+  <div class="field">
+    <%= f.label :birth_day %><br />
+    <%= f.date_field :birth_day %>
+  </div>
+  
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
