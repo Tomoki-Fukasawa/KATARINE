@@ -1,6 +1,7 @@
-<h1>KATARINE</h1>
-
-<%= link_to '掲示板を立てる', '/boards/new' %>
+<div class="make_boards">
+  <div class="say_come">話しちゃお!</div>
+  <%= link_to '掲示板を立てる', new_board_path %>
+</div>
 
 <% @boards.each do |board| %>
   <div class="board">
@@ -15,3 +16,11 @@
     </div>
   </div>
 <% end %>
+<%# <div class="wrapper">
+  <div class="chat_area">
+    <%=render "chat_area"%>
+  <%# </div>
+  <div class="friends_area">
+    <%=render "friends_area"%>
+  <%# </div>
+</div> %> 

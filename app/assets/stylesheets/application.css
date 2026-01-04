@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+.header_bar{
+  height: 50px;
+  padding:0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  background-color: aqua;
+  font-size: 20px ;
+  color: black;
+  text-decoration: none;
+}
+
+.app_logo{
+  font-size:30px;
+}
+.right_area{
+  font-size: 30px;
+  padding:5px;
+}
+
