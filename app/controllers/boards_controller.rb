@@ -8,9 +8,9 @@ class BoardsController < ApplicationController
     @board=Board.new
   end
   def create
-    Board.create(board_params)
+    @board=Board.create(board_params)
     if @board.save
-      redirect_to :index
+      redirect_to '/'
     else
       render :new, status: :unprocessable_entity
     end

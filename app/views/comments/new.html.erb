@@ -1,0 +1,19 @@
+<div>掲示板</div>
+<div class="board_head">
+  <div class="board_title">
+    <%= board.title %>
+  </div>
+  <div class="board_content">
+    <%= board.description %>
+  </div>
+  <div class="board_date">
+    <%= board.created_at %>
+  </div>
+</div>
+
+<div class="comments">
+  <% board.comments.each do |comment|%>
+    <%=comment.content%>
+    <%=comment.user%>
+  <% end %>
+</div>

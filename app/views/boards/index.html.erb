@@ -9,11 +9,12 @@
       <%= board.title %>
     </div>
     <div class="board_content">
-      <%= board.content %>
+      <%= board.description %>
     </div>
     <div class="board_date">
       <%= board.created_at %>
     </div>
+    <%= link_to 'コメントする', new_board_path %>
   </div>
 <% end %>
 <%# <div class="wrapper">
