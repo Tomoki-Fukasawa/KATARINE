@@ -16,6 +16,11 @@ class BoardsController < ApplicationController
     end
   end
 
+  def show
+    @comment=Comment.new
+    @comments=@board.comments.includes(:user)
+  end
+
   private
 
   def board_params

@@ -14,7 +14,7 @@
     <div class="board_date">
       <%= board.created_at %>
     </div>
-    <%= link_to 'コメントする', new_board_path %>
+    <%= link_to 'コメントする', board_path(board.id) %>
   </div>
 <% end %>
 <%# <div class="wrapper">
