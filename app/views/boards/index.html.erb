@@ -1,22 +1,27 @@
-<div class="make_boards">
-  <div class="say_come">話しちゃお!</div>
-  <%= link_to '掲示板を立てる', new_board_path %>
+<div class="wrapper">
+  <div class="left">
+    <div class="make_boards">
+      <div class="say_come">話しちゃお!</div>
+      <%= link_to '掲示板・ブログを立てる', new_board_path %>
+    </div>
+
+    <% @boards.each do |board| %>
+      <div class="board">
+        <div class="board_title">
+          <%= board.title %>
+        </div>
+        <div class="board_content">
+          <%= board.description %>
+        </div>
+        <div class="board_date">
+          <%= board.created_at %>
+        </div>
+        <%= link_to 'コメントする', board_path(board.id) %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
-<% @boards.each do |board| %>
-  <div class="board">
-    <div class="board_title">
-      <%= board.title %>
-    </div>
-    <div class="board_content">
-      <%= board.description %>
-    </div>
-    <div class="board_date">
-      <%= board.created_at %>
-    </div>
-    <%= link_to 'コメントする', board_path(board.id) %>
-  </div>
-<% end %>
 <%# <div class="wrapper">
   <div class="chat_area">
     <%=render "chat_area"%>
