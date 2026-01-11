@@ -20,6 +20,15 @@
       </div>
     <% end %>
   </div>
+  <div class="member_lists">
+    <% @members.each do |member|%>
+      <div class="member">
+        <div class=member_name>
+          <%= member.nickname %>
+        </div>
+      </div>
+    <%end%>
+  </div>
 </div>
 
 <%# <div class="wrapper">
