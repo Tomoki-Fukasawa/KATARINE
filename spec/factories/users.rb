@@ -9,5 +9,9 @@ FactoryBot.define do
     first_name_kana       { 'ヤマダ' }
     last_name_kana        { 'タロウ' }
     birth_day             { Faker::Date.birthday(min_age: 18, max_age: 65) }
+    
+    after(:build) do |message|
+      message.image.attach(io: File.open('public/images/test_image.png'), filename: 'test_image.png')
+    end
   end
 end

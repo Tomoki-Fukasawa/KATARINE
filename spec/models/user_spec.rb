@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
   end
   describe 'ユーザー新規登録' do
     context '新規登録できるとき' do
-      it 'nicknameとemail、passwordとpassword_confirmationが存在すれば登録できる' do
+      it 'user登録に必要なすべての要素が存在すれば登録できる' do
         expect(@user).to be_valid
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe User, type: :model do
         @user.password = '111aaa'
         @user.password_confirmation = '222aaa'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        expect(@user.errors.full_messages).to include("Password confirmation Translation missing")
       end
       it 'お名前の姓(漢字)が空では登録できない' do
         @user.last_name_kanji = ''
@@ -113,6 +113,11 @@ RSpec.describe User, type: :model do
         @user.birth_day = ''
         @user.valid?
         expect(@user.errors.full_messages).to include('Birth day を入力してください')
+      end
+      it 'imageが空では登録できない' do
+        @user.image = nil
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Image can't be blank")
       end
     end
   end

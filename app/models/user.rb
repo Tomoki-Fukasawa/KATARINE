@@ -21,6 +21,9 @@ class User < ApplicationRecord
     validates :first_name_kana
     validates :last_name_kana
   end
+  validates :image, presence: true
+  validates :email, presence: true
+  validates :password, presence: true
 
   has_many :items
   has_many :buyers
