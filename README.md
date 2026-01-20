@@ -11,6 +11,7 @@
 |first_name_kana|string|null:false|
 |last_name_kana|string|null:false|
 |birth_day|date|null:false|
+|friend_want|boolean| default: false, null: false|
 
 ###Association
 -has_many: boards

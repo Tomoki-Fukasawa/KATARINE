@@ -1,0 +1,13 @@
+<div class="member_list_title">
+  <div class="say_come">探しちゃお!</div>
+</div>
+<div class="member_lists">
+  <% @users.each do |user|%>
+    <div class="member">
+      <div class=member_name>
+        <%= user.image %>
+        <%= user.nickname %>
+      </div>
+    </div>
+  <%end%>
+</div>
