@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_20_070909) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,6 +50,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_070909) do
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
     t.integer "user_id"
     t.integer "board_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "friend_ships", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

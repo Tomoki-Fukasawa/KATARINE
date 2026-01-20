@@ -54,7 +54,8 @@
 |Column |Type |Options|
 |-------|-----|-------|
 |user|references|null: false, foreign_key|
-|board|references|null: false, foreign_key|
+|message|references|null: false, foreign_key|
+|friend|references|null: false, foreign_key|
 
 ###Association
 -belongs_to: user

@@ -28,4 +28,7 @@ class User < ApplicationRecord
   has_many :items
   has_many :buyers
   has_one_attached :image
+  has_many :friend_ship
+  has_many :friend, through: :friend_ship
+  has_many :message
 end
