@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  # before_action :move_to_index,except: [:index, :show]
+  before_action :move_to_index,except: [:index, :show]
 
   def index
     @boards = Board.all
@@ -17,8 +17,25 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @comment=Comment.new
+    @comment=Comment.new   
+    @board=Board.find(params[:id]) 
     @comments=@board.comments.includes(:user)
+  end
+
+  def destroy
+    board=Board.find(params[:id])
+    board.destroy
+    redirect_to '/'
+  end
+
+  def edit
+    @board = Board.find(params[:id])
+  end
+
+  def update
+    board = Board.find(params[:id])
+    board.update(board_params)
+    redirect_to '/'
   end
 
   private
@@ -27,9 +44,9 @@ class BoardsController < ApplicationController
     params.require(:board).permit(:title,:description).merge(user_id: current_user.id)
   end
 
-  # def move_to_index
-  #   unless user_signed_in?
-  #     redirect_to action: :index
-  #   end
-  # end
+  def move_to_index
+    unless user_signed_in?
+      redirect_to action: :index
+    end
+  end
 end

@@ -6,8 +6,10 @@ development:
   <<: *default
   adapter: mysql2
   username: root
-  password:
+  password: 
   host: localhost
+  port: 3306
+  socket: /run/mysqld/mysqld.sock
   database: katarine_development
 
 test:
@@ -16,6 +18,7 @@ test:
   username: root
   password:
   host: localhost
+  socket: /run/mysqld/mysqld.sock
   database: katarine_test
 
 production:

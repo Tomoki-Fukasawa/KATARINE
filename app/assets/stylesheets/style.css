@@ -1,4 +1,15 @@
 /*index*/
+.wrapper{
+  display: flex;
+}
+.left{
+  width: 60%;
+  background-color: bisque;
+}
+.right{
+  width:calc(100% - 60%);
+  background-color: aliceblue;
+}
 .make_boards{
   font-size: 30px;
   text-decoration: none;
@@ -7,6 +18,10 @@
 .say_come{
   font-size: 40px;
 }
+
 /*board_show*/
-.board_head{
+.board{
+  justify-content: center;
+  border: 2px solid black;
+  padding:0 20px;
 }

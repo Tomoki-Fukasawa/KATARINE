@@ -1,23 +1,9 @@
-<div class="member_list_title">
-  <div class="say_come">探しちゃお!</div>
-</div>
-<div class="member_lists">
-  <% @users.each do |user|%>
-    <div class="member">
-      <div class=member_name>
-        <%= user.image %>
-        <%= user.nickname %>
-      </div>
-    </div>
-  <%end%>
-</div>
+<div class="wrapper">
+  <div class="left">
+    <%= render "boards/board_list", boards: @boards %>
+  </div>
 
-<%# <div class="wrapper">
-  <div class="side_bar">
-    <%= render "users/side_bar" %>
-  <%# </div>
-
-  <div class="main">
-    <%= render "users/friend_list", users: @users %>
-  <%# </div>
-</div> %>  %
+  <div class="right">
+    <%= render "users/friend_list", users: @users %> 
+  </div>
+</div>

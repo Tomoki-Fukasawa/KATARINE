@@ -1,0 +1,43 @@
+<div>掲示板</div>
+<div class="board_head">
+  <div class="board_date">
+    <%= @board.created_at %>
+  </div>
+  <div class="board_title">
+    <%= @board.title %>
+  </div>
+  <div class="board_content">
+    <%= @board.description %>
+  </div>
+  <div class="more">
+    <ul class="more_list">
+      <% if user_signed_in? && current_user.id == @board.user_id %>
+        <li>
+          <%= link_to '編集', edit_board_path(@board.id) %>
+        </li>
+        <li>
+          <%= link_to '削除', board_path(@board.id), data: { turbo_method: :delete } %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <% if user_signed_in? %>
+    <%= form_with(model: [@board,@comment], local:true) do |form|%>
+      <%=form.text_area :content, placeholder: "投稿", rows:"2"%>
+      <%=form.submit "SEND" %>
+    <%end%>
+  <% end %>
+  <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+  <div class="comments">
+    <h4><comment-list></h4>
+    <% @comments.each do |comment|%>
+      <p>
+        <strong><%= link_to comment.user.nickname, "/users/#{comment.user_id}"%>:</strong>
+        <%= comment.content %>
+      </p>
+    <% end%>
+  </div>
+</div>

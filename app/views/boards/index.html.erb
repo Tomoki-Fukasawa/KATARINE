@@ -1,42 +1,9 @@
 <div class="wrapper">
   <div class="left">
-    <div class="make_boards">
-      <div class="say_come">話しちゃお!</div>
-      <%= link_to '掲示板・ブログを立てる', new_board_path %>
-    </div>
-
-    <% @boards.each do |board| %>
-      <div class="board">
-        <div class="board_title">
-          <%= board.title %>
-        </div>
-        <div class="board_content">
-          <%= board.description %>
-        </div>
-        <div class="board_date">
-          <%= board.created_at %>
-        </div>
-        <%= link_to 'コメントする', board_path(board.id) %>
-      </div>
-    <% end %>
+    <%= render "boards/board_list", boards: @boards %>
   </div>
   <div class="right">
   <div>
-  <%# <div class="wrapper">
-    <div class="main"> %>
-      <%# <%= render "boards/board_list", boards: @boards %>
-    <%# </div>
-  </div> %>
-
-  <%# <div class="member_lists">
-    <% @members.each do |member|%>
-      <%# <div class="member">
-        <div class=member_name>
-          <%= member.nickname %>
-        <%# </div>
-      </div>
-    <%end%>
-  <%# </div> %>
 </div>
 
 <%# <div class="wrapper">
