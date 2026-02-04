@@ -1,6 +1,15 @@
 class ApplicationController < ActionController::Base
-  before_action :basic_auth
+  before_action :basic_auth, unless: -> { Rails.env.test? }
   before_action :configure_permitted_parameters, if: :devise_controller?
+  # Devise 登録後のリダイレクト先
+  def after_sign_up_path_for(resource)
+    authenticated_root_path  # 例：ログイン後のトップページ
+  end
+
+  # ログイン後のリダイレクト先
+  def after_sign_in_path_for(resource)
+    authenticated_root_path
+  end
 
 
   private
@@ -13,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
-     keys: [:encrypted_password, :password_confirmation, :nickname,
+     keys: [:password, :password_confirmation, :nickname,
      :last_name_kanji,:first_name_kanji,:last_name_kana,:first_name_kana,
      :birth_day, :image])
   end

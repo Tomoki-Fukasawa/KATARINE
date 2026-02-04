@@ -4,6 +4,7 @@ class UsersController < ApplicationController
     @users = User.where(friend_want: true).where.not(id: current_user.id)
     @boards = Board.all
   end
+  
   def show
     @user=User.find(params[:id])
     @nickname=current_user.nickname
