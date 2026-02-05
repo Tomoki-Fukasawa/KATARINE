@@ -2,6 +2,9 @@ ja:
   activerecord:
     models:
       user: ユーザー
+      board: 掲示板
+      comment: コメント
+
     attributes:
       user:
         nickname: ニックネーム
@@ -14,6 +17,14 @@ ja:
         last_name_kana: 姓（カナ）
         birth_day: 生年月日
         image: 画像
+
+      board:
+        title: タイトル
+        description: 説明文
+      
+      comment:
+        content: 内容
+
     errors:
       messages:
         blank: "を入力してください"
@@ -21,3 +32,16 @@ ja:
         taken: "はすでに存在します"
         too_short: "は%{count}文字以上で入力してください"
         confirmation: "と一致しません"
+
+      models:
+        board:
+          attributes:
+            user:
+              required: "が空です"
+
+        comment:
+          attributes:
+            user:
+              required: "が空です"          
+            board:
+              required: "が空です"          
