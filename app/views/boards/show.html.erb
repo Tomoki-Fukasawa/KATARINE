@@ -16,7 +16,7 @@
           <%= link_to '編集', edit_board_path(@board.id) %>
         </li>
         <li>
-          <%= link_to '削除', board_path(@board.id), data: { turbo_method: :delete } %>
+          <%= button_to '削除', board_path(@board), method: :delete %>
         </li>
       <% end %>
     </ul>
@@ -30,7 +30,9 @@
       <%=form.submit "SEND" %>
     <%end%>
   <% end %>
-  <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+  <% unless user_signed_in? %>
+    <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+  <% end %>
   <div class="comments">
     <h4><comment-list></h4>
     <% @comments.each do |comment|%>

@@ -1,8 +1,11 @@
 <h1>新規投稿ページ</h1>
-<%= form_with(model: @board, local: true) do |form| %>
-  <h2>投稿タイトル</h2>
+<%# <%= form_with(model: @board, local: true) do |form| %> 
+<%= form_with url: boards_path, method: :post, local: true do |form| %>
+
+  <%= form.label :title, '投稿タイトル'%>
   <%= form.text_field :title ,class: "form_control",placeholder: "タイトル"%>
-  <h3>投稿内容</h3>
+
+  <%= form.label :description, '投稿内容'%>
   <%= form.text_area :description ,class: "form_control",placeholder: "120字以内で記入してください"%>
   <%= form.submit '掲示板を公開する' %>
 <% end %>
