@@ -1,5 +1,6 @@
 class BoardsController < ApplicationController
   before_action :move_to_index,except: [:index, :show]
+  before_action :authenticated_root_path!, only: [:edit, :update, :destroy]
 
   def index
     @boards = Board.all
@@ -46,7 +47,11 @@ class BoardsController < ApplicationController
 
   def move_to_index
     unless user_signed_in?
-      redirect_to action: :index
+      redirect_to unauthenticated_root_path
     end
+  end
+
+  def authorize_board!
+    redirect_to authenticated_root_path unless @board.user == current_user
   end
 end
