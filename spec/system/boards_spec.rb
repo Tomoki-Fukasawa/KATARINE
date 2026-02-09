@@ -13,7 +13,7 @@ RSpec.describe '掲示板投稿', type: :system do
       fill_in 'メールアドレス', with:@user.email
       fill_in 'パスワード', with:@user.password
       find('input[name="commit"]').click
-      expect(page).to have_current_path(authenticated_root_path)
+      expect(page).to have_current_path(root_path)
       # 新規投稿ページへのボタンがあることを確認する
       expect(page).to have_link('掲示板・ブログを立てる', href: new_board_path)
       # 投稿ページに移動する
@@ -38,7 +38,7 @@ RSpec.describe '掲示板投稿', type: :system do
   context 'ツイート投稿ができないとき'do
     it 'ログインしていないと新規投稿ページに遷移できない' do
       # トップページに遷移する
-      visit unauthenticated_root_path
+      visit root_path
       # 新規投稿ページへのボタンがないことを確認する
       expect(page).to have_no_link('掲示板・ブログを立てる', href: new_board_path)
     end
@@ -59,7 +59,7 @@ RSpec.describe '掲示板編集', type: :system do
       fill_in 'メールアドレス',with:@user.email
       fill_in 'パスワード',with:@user.password
       find('input[name="commit"]').click
-      expect(page).to have_current_path(authenticated_root_path)
+      expect(page).to have_current_path(root_path)
       # 掲示板1に「'この掲示板についてはこちら'」へのリンクがあることを確認する
       within all('.board-list')[0]do
         expect(page).to have_link 'この掲示板についてはこちら'
@@ -97,7 +97,7 @@ RSpec.describe '掲示板編集', type: :system do
       fill_in 'メールアドレス', with:@user.email
       fill_in 'パスワード', with:@user.password
       find('input[name="commit"]').click
-      expect(page).to have_current_path(authenticated_root_path)
+      expect(page).to have_current_path(root_path)
       # 詳細ページへ遷移する
       visit board_path(@board2)
       # 掲示板2に「'編集'」へのリンクがないことを確認する
@@ -110,7 +110,7 @@ RSpec.describe '掲示板編集', type: :system do
     end
     it 'ログインしていないと掲示板の編集画面には遷移できない' do
       # トップページにいる
-      visit unauthenticated_root_path
+      visit root_path
       # ツイート1に「'編集'」へのリンクがないことを確認する
       visit board_path(@board1)
       within '.more' do
@@ -138,7 +138,7 @@ RSpec.describe '掲示板削除', type: :system do
       fill_in 'メールアドレス', with:@user.email
       fill_in 'パスワード', with:@user.password
       find('input[name="commit"]').click
-      expect(page).to have_current_path(authenticated_root_path)
+      expect(page).to have_current_path(root_path)
       # ツイート1に「'この掲示板についてはこちら'」へのリンクがあることを確認する
       within all('.board-list')[0]do
         expect(page).to have_link 'この掲示板についてはこちら'
@@ -170,7 +170,7 @@ RSpec.describe '掲示板削除', type: :system do
       fill_in 'メールアドレス', with: @user.email
       fill_in 'パスワード', with: @user.password
       find('input[name="commit"]').click
-      expect(page).to have_current_path(authenticated_root_path)
+      expect(page).to have_current_path(root_path)
       # 掲示板2に「'削除'」へのリンクがないことを確認する
       visit board_path(@board2)
       within '.more' do
@@ -179,7 +179,7 @@ RSpec.describe '掲示板削除', type: :system do
     end
     it 'ログインしていないと掲示板の削除ボタンがない' do
       # トップページに移動する
-      visit unauthenticated_root_path
+      visit root_path
       # ツイート1に「'削除'」へのリンクがないことを確認する
       visit board_path(@board1)
       within '.more' do
@@ -205,7 +205,7 @@ RSpec.describe '掲示板詳細', type: :system do
     fill_in 'メールアドレス' , with:@user.email
     fill_in 'パスワード', with:@user.password
     find('input[name="commit"]').click
-    expect(page).to have_current_path(authenticated_root_path)
+    expect(page).to have_current_path(root_path)
     # 掲示板1に「'この掲示板についてはこちら'」へのリンクがあることを確認する
       within all('.board-list')[0]do
         expect(page).to have_link 'この掲示板についてはこちら'
@@ -217,11 +217,11 @@ RSpec.describe '掲示板詳細', type: :system do
     expect(page).to have_content("#{@board1.title}")
     expect(page).to have_content("#{@board1.description}")
     # コメント用のフォームが存在する
-    expect(page).to have_selector 'form'
+    expect(page).to have_selector('form')
   end
   it 'ログインしていない状態でツイート詳細ページに遷移できるもののコメント投稿欄が表示されない' do
     # トップページに移動する
-    visit unauthenticated_root_path
+    visit root_path
     # 掲示板に「'この掲示板についてはこちら'」へのリンクがあることを確認する
       within all('.board-list')[0]do
         expect(page).to have_link 'この掲示板についてはこちら'
@@ -232,7 +232,7 @@ RSpec.describe '掲示板詳細', type: :system do
     expect(page).to have_content("#{@board1.title}")
     expect(page).to have_content("#{@board1.description}")
     # フォームが存在しないことを確認する
-    expect(page).to have_no_selector 'form'
+    expect(page).to have_no_selector('form') 
     # 「コメントの投稿には新規登録/ログインが必要です」が表示されていることを確認する
     expect(page).to have_content('コメントの投稿には新規登録/ログインが必要')
   end

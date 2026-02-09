@@ -3,12 +3,12 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   # Devise 登録後のリダイレクト先
   def after_sign_up_path_for(resource)
-    authenticated_root_path  # 例：ログイン後のトップページ
+    root_path  # 例：ログイン後のトップページ
   end
 
   # ログイン後のリダイレクト先
   def after_sign_in_path_for(resource)
-    authenticated_root_path
+    root_path
   end
 
 

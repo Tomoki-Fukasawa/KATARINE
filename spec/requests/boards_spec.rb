@@ -6,27 +6,27 @@ RSpec.describe "Boards", type: :request do
   end
   describe "GET #index" do
     it 'indexアクションにリクエストすると正常にレスポンスが返ってくる' do 
-      get unauthenticated_root_path
+      get root_path
       expect(response.status).to eq 200      
     end
     it 'indexアクションにリクエストするとレスポンスに投稿済みのツイートのテキストが存在する' do 
-      get unauthenticated_root_path
+      get root_path
       expect(response.body).to include(@board.title)      
     end
     it 'indexアクションにリクエストするとレスポンスに投稿済みのツイートの画像URLが存在する' do 
-      get unauthenticated_root_path
+      get root_path
       expect(response.body).to include(@board.description)
     end
     it 'indexアクションにリクエストすると正常にレスポンスが返ってくる' do 
-      get authenticated_root_path
+      get root_path
       expect(response.status).to eq 200      
     end
     it 'indexアクションにリクエストするとレスポンスに投稿済みのツイートのテキストが存在する' do 
-      get authenticated_root_path
+      get root_path
       expect(response.body).to include(@board.title)      
     end
     it 'indexアクションにリクエストするとレスポンスに投稿済みのツイートの画像URLが存在する' do 
-      get authenticated_root_path
+      get root_path
       expect(response.body).to include(@board.description)
     end
   end
