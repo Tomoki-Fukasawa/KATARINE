@@ -40,34 +40,41 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
   end
 
   create_table "boards", charset: "utf8mb3", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.integer "user_id"
+    t.string "title", null: false
+    t.text "description", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "board_id"
-    t.text "content"
+    t.bigint "user_id", null: false
+    t.bigint "board_id", null: false
+    t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_comments_on_board_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "friend_ships", charset: "utf8mb3", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
+    t.bigint "user_id", null: false
+    t.bigint "friend_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friend_ships_on_friend_id"
+    t.index ["user_id"], name: "index_friend_ships_on_user_id"
   end
 
   create_table "messages", charset: "utf8mb3", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
+    t.bigint "user_id", null: false
+    t.bigint "friend_id", null: false
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_messages_on_friend_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
@@ -79,6 +86,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
     t.string "last_name_kana", null: false
     t.string "first_name_kana", null: false
     t.date "birth_day", null: false
+    t.text "greet"
+    t.text "introduction"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -91,4 +100,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boards", "users"
+  add_foreign_key "comments", "boards"
+  add_foreign_key "comments", "users"
+  add_foreign_key "friend_ships", "users"
+  add_foreign_key "friend_ships", "users", column: "friend_id"
+  add_foreign_key "messages", "users"
+  add_foreign_key "messages", "users", column: "friend_id"
 end

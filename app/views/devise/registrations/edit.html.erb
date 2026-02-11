@@ -4,32 +4,77 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
+    <%= f.label :nickname %><em>(6 characters maximum)</em><br />
+    <%= f.text_field :nickname, autofocus: true,maxlength: "6"%>
+  </div>
+  
+  <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.email_field :email %>
   </div>
 
   <div class="field">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name_kanji %><br />
+    <%= f.text_field :last_name_kanji %>
+  </div>
+  <div class="field">
+    <%= f.label :first_name_kanji %><br />
+    <%= f.text_field :first_name_kanji %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name_kana %><br />
+    <%= f.text_field :last_name_kana %>
+  </div>
+  <div class="field">
+    <%= f.label :first_name_kana %><br />
+    <%= f.text_field :first_name_kana %>
+  </div>
+  <div class="field">
+    <%= f.label :birth_day %><br />
+    <%= f.date_field :birth_day %>
+  </div>
+
+  <div class="field">
+    <%= f.label :greet %><br />
+    <%= f.text_area :greet %>
+  </div>
+
+  <div class="field">
+    <%= f.label :introduction %><br />
+    <%= f.text_area :introduction %>
+  </div>
+
+  <div class="img-upload">
+    <div class="weight-bold-text">
+      ユーザー画像
+      <span class="indispensable">必須</span>
+    </div>
+    <div class="click-upload">
+      <p>
+        クリックしてファイルをアップロード
+      </p>
+      <%= f.file_field :image, id:"user_image" %>
+    </div>
+  </div>
+
 
   <div class="actions">
     <%= f.submit "Update" %>

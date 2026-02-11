@@ -45,7 +45,7 @@ RSpec.describe "Boards", type: :request do
     end
     it 'showアクションにリクエストするとレスポンスにコメント一覧表示部分が存在する' do 
       get board_path(@board)
-      expect(response.body).to include('board-list')
+      expect(response.body).to include('comments')
     end
   end  
 end

@@ -26,7 +26,8 @@
 <div class="container">
   <% if user_signed_in? %>
     <%= form_with(model: [@board,@comment], local:true) do |form|%>
-      <%=form.text_area :content, placeholder: "投稿", rows:"2"%>
+      <%= form.label :content, 'コメント'%>
+      <%=form.text_area :content, placeholder: "何話す？", rows:"2"%>
       <%=form.submit "SEND" %>
     <%end%>
   <% end %>

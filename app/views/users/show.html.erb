@@ -3,9 +3,16 @@
     <%= image_tag @user.image.variant(resize: '1000x100') ,class:"item-box-img" %>
   </div>
 
+  <% if user_signed_in? && current_user.id == @user.id %>
+    <%= link_to 'マイページ編集', edit_user_registration_path(@user.id) %>
+  <% end %>
   
   <p><%= @user.nickname %>さんの情報</p>
   <p><%= @user.birth_day %>さんの情報</p>
+  <p>あいさつ文</p>
+  <%= @user.greet %>
+  <p>自己紹介</p>
+  <%= @user.introduction %>
 
   <p>最近の投稿 投稿数 </p>
   <p>友達数</p>
@@ -14,6 +21,7 @@
     <%# <button id="friend-want-btn" data-friend-want="<%= @user.friend_want %>"> %>
       <%# <%=@user.friend_want? "友達募集中": "友達を探す" %> %>
     <%# </button> %>
-  <%# <%end%> %> %>
-  
+  <%end %> %>
+
 </div>
+
