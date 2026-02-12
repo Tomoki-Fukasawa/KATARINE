@@ -18,10 +18,10 @@
   <p>友達数</p>
 
   <% if current_user ==@user %>
-    <button id="friend-want-btn" data-friend-want="<%= @user.friend_want %>"> %>
-       <%=@user.friend_want? "友達募集中": "友達を探す" %> %>
-    </button> %>
-  <%end %> %>
+    <button id="friend-want-btn" data-friend-want="<%= @user.friend_want %>"> 
+       <%=@user.friend_want? "友達募集中": "友達を探す" %> 
+    </button> 
+  <%end %> 
 
 </div>
 
