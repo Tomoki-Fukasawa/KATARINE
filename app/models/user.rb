@@ -30,7 +30,7 @@ class User < ApplicationRecord
   has_one_attached :image
   has_many :boards
   has_many :comments
-  has_many :friend_ship
+  has_many :friendship
   has_many :friend, through: :friend_ship
   has_many :message
 end

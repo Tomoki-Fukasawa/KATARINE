@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_13_135028) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -58,13 +58,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "friend_ships", charset: "utf8mb3", force: :cascade do |t|
+  create_table "friendships", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "friend_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["friend_id"], name: "index_friend_ships_on_friend_id"
-    t.index ["user_id"], name: "index_friend_ships_on_user_id"
+    t.integer "state", default: 0, null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "messages", charset: "utf8mb3", force: :cascade do |t|
@@ -93,7 +94,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "friend_want"
+    t.boolean "friend_want", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -103,8 +104,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_084646) do
   add_foreign_key "boards", "users"
   add_foreign_key "comments", "boards"
   add_foreign_key "comments", "users"
-  add_foreign_key "friend_ships", "users"
-  add_foreign_key "friend_ships", "users", column: "friend_id"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "messages", "users"
   add_foreign_key "messages", "users", column: "friend_id"
 end
