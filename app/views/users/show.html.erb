@@ -18,9 +18,15 @@
   <p>友達数</p>
 
   <% if current_user ==@user %>
-    <button id="friend-want-btn" data-friend-want="<%= @user.friend_want %>"> 
-       <%=@user.friend_want? "友達募集中": "友達を探す" %> 
-    </button> 
+    <%# <button id="friend-want-btn" data-friend-want="<%= @user.friend_want %>"> 
+       <%# <%=@user.friend_want? "友達募集中": "友達を探す" %>  %>
+    <%# </button>  %> %>
+    <%# <%= button_to ()"友達募集中":"募集を停止する", friend_want_users_path(@user), method: :patch %> %>
+    <%= button_to(
+      current_user.friend_want? ? "友達募集を停止する" : "友達を募集する",
+      friend_want_user_path(@user),
+      method: :patch
+    )%>
   <%end %> 
 
 </div>
