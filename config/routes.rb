@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   resources :users, only: [:show,:index] do
     # patch :friend_want,on: :collection
     patch :friend_want,on: :member
+    member do
+      get :friends
+    end
   end
   resources :boards do
     resources :comments,only: :create

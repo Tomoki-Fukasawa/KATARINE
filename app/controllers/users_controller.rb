@@ -9,7 +9,12 @@ class UsersController < ApplicationController
   
   def show
     @user=User.find(params[:id])
-    
+  end
+
+  def friends
+    @user = User.find(params[:id])
+    # @friends = @user.friends + @user.inverse_friends
+    @friends = @user.friendships.accepted.includes(:friend).map(&:friend)
   end
   # def friend_want
   #   current_user.update(friend_want: !current_user.friend_want)

@@ -1,0 +1,7 @@
+<h1><%= @user.nickname %>の友達一覧</h1>
+
+<% @friends.each do |friend| %>
+  <div>
+    <%= link_to friend.nickname, user_path(friend) %>
+  </div>
+<% end %>
