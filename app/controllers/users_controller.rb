@@ -14,7 +14,8 @@ class UsersController < ApplicationController
   def friends
     @user = User.find(params[:id])
     # @friends = @user.friends + @user.inverse_friends
-    @friends = @user.friendships.accepted.includes(:friend).map(&:friend)
+    # @friends = @user.friendships.accepted.includes(:friend).map(&:friend)
+    @friends = @user.friends
   end
   # def friend_want
   #   current_user.update(friend_want: !current_user.friend_want)
@@ -28,8 +29,10 @@ class UsersController < ApplicationController
     #   Rails.logger.debug @user.errors.full_messages
     # end
 
+    current_user.update(friend_want: !current_user.friend_want)
+
     # @user.update(friend_want: !@user.friend_want)
-    current_user.update_column(:friend_want, !@user.friend_want)
+    # current_user.update_column(:friend_want, !@user.friend_want)
     # Rails.logger.debug @user.errors.full_messages
     redirect_to user_path(@user)
   end

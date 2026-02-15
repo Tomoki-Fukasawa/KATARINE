@@ -3,6 +3,7 @@
     <div class="say_come">探しちゃお!</div>
   </div>
   <div class="member_lists">
+    <% if @user.friend_want %>
     <% @users.each do |user|%>
       <div class="member">
         <div class=member_name>

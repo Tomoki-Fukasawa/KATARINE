@@ -32,15 +32,16 @@ class User < ApplicationRecord
   has_many :comments
 
   has_many :friendships
-  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
+  # has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
 
-  has_many :friends, {where(friendships: { state: :accepted})},
+  has_many :friends, 
+  ->{where(friendships: { state: :accepted})},
   through: :friendships, 
   source: :friend
 
-  has_many :inverse_friends,{where(friendships: { state: :accepted})},
-  through: :inverse_friendships,
-  source: :user
+  # has_many :inverse_friends,{where(friendships: { state: :accepted})},
+  # through: :inverse_friendships,
+  # source: :user
   
   has_many :message
 end
