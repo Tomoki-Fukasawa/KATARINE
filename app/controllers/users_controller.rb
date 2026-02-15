@@ -2,7 +2,12 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   def index
     accepted_ids = current_user.friendships.accepted.pluck(:friend_id)
-    @users = User.where(friend_want: true).where.not(id: current_user.id).where.not(id: accepted_ids)
+    current_pending_ids = current_user.friendships.pending.pluck(:friend_id)
+    inverse_pending_ids = current_user.inverse_friendships.pending.pluck(:friend_id)
+
+    exclude_ids = (accepted_ids + current_pending_ids +inverse_pending_ids).uniq
+
+    @users = User.where(friend_want: true).where.not(id: current_user.id).where.not(id: exclude_ids)
     # @friends =Friend.where(id: friend.id).where.not(current_user.friendship.accepted)
     @boards = Board.all
   end

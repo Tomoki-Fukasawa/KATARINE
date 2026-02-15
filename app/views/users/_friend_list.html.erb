@@ -3,12 +3,17 @@
     <div class="say_come">探しちゃお!</div>
   </div>
   <div class="member_lists">
-    <% if @user.friend_want %>
     <% @users.each do |user|%>
       <div class="member">
+        <div class="user_image">
+          <%= image_tag @user.image.variant(resize: '100x100') ,class:"item-box-img" %>
+        </div>
         <div class=member_name>
           <%= user.image %>
           <%= user.nickname %>
+        </div>
+        <div class="friend_show_link">
+          <%= link_to "この人の詳しい情報はこちら", user_path(user)%>
         </div>
       </div>
     <%end%>
