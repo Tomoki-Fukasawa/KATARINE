@@ -19,18 +19,20 @@
 
   <% if user_signed_in?%>
     <% if current_user ==@user %>
-      <%# <button id="friend-want-btn" data-friend-want="<%= @user.friend_want %>"> 
-        <%# <%=@user.friend_want? "友達募集中": "友達を探す" %>  %>
-      <%# </button>  %> %>
-      <%# <%= button_to ()"友達募集中":"募集を停止する", friend_want_users_path(@user), method: :patch %> %>
       <%= button_to(
         current_user.friend_want? ? "友達募集を停止する" : "友達を募集する",
         friend_want_user_path(@user),
         method: :patch
       )%>
+    <% elsif @user == current_user.friend%>
+    # 友達登録済み
+    <% elsif current_user.friendship(state: pending) exist%>
+    # 自分が友達登録申請中
+    <% elsif @user.friendship(state: pending) exist%>
+    # 相手から申請中
     <% else%>
       <%= button_to(
-        current_user.approve
+        current_user.friendship.create
         friendships_path(@user),
         method: :post
       )%>
