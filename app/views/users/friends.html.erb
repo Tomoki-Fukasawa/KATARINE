@@ -6,19 +6,22 @@
   </div>
 <% end %>
 
-<h2><%= @user.nickname %>の友達申請中一覧</h2>
-<% @users.each do |user| %>
-  <div>
-    <%= user.nickname%>
-    <p>申請中です。お待ちください</p>
-  </div>
+<% if @user==current_user %>
+  <h2><%= current_user.nickname %>の友達申請中一覧</h2>
+  <% @pending_sent.each do |sent_user| %>
+    <div>
+      <%= sent_user.nickname%>
+      <p>申請中です。お待ちください</p>
+    </div>
+  <% end %>
+
+  <h3><%= current_user.nickname %>の友達承認待ち一覧</h3>
+  <% @pending_received.each do |give_user| %>
+    <div>
+      <%= give_user.nickname%>
+      <p>承認しますか？</p>
+      <%= link_to give_user.nickname, friendship_path(give_user), method: :patch  %>
+    </div>
+  <% end %>
 <% end %>
 
-<h3><%= @user.nickname %>の友達承認待ち一覧</h3>
-<% @users.each do |user| %>
-  <div>
-    <%= user.nickname%>
-    <p>承認しますか？</p>
-    <%= link_to user.nickname, user_path(friend) %>
-  </div>
-<% end %>

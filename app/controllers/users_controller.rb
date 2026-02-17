@@ -30,5 +30,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     current_user.update(friend_want: !current_user.friend_want)
     redirect_to user_path(@user)
+    # if current_user.update(friend_want: !current_user.friend_want)
+    #   redirect_to user_path(@user), notice: "更新成功"
+    # else
+    #   Rails.logger.debug current_user.errors.full_messages
+    #   redirect_to user_path(@user), alert: current_user.errors.full_messages.join(", ")
+    # end
   end
 end

@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates_format_of :password, with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i, message: 'には英字と数字の両方を含めて設定してください'
   with_options presence: { message: 'を入力してください' } do
     validates :nickname
     validates :first_name_kanji
@@ -23,7 +22,12 @@ class User < ApplicationRecord
   end
   validates :image, presence: true
   validates :email, presence: true
-  validates :password, presence: true
+  validates :password, 
+    presence: true,
+    format: {
+      with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i, 
+      message: 'には英字と数字の両方を含めて設定してください'
+    },if: :password_required?
 
   has_many :items
   has_many :buyers
@@ -39,7 +43,8 @@ class User < ApplicationRecord
   through: :friendships, 
   source: :friend
 
-  has_many :inverse_friends,{where(friendships: { state: :accepted})},
+  has_many :inverse_friends,
+  ->{where(friendships: { state: :accepted})},
   through: :inverse_friendships,
   source: :user
 
