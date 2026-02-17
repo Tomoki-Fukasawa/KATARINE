@@ -43,14 +43,6 @@ class User < ApplicationRecord
   through: :inverse_friendships,
   source: :user
 
-  # def friendship_with(user)
-  #   friendships.find_by(user_id: user.id)
-  # end
-
-  # def inverse_friendship_with(user)
-  #   inverse_friendships.find_by(user_id: user.id)
-  # end
-
   def pending_sent_to?(user)
     friendships.exists?(friend_id: user.id, state: :pending)
   end

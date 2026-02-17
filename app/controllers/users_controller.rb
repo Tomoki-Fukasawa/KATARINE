@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   def index
-    accepted_ids = current_user.friendships.accepted.pluck(:friend_id)
+    # accepted_ids = current_user.friendships.accepted.pluck(:friend_id)
+    accepted_ids = current_user.friends.pluck(:friend_id)
     current_pending_ids = current_user.friendships.pending.pluck(:friend_id)
     inverse_pending_ids = current_user.inverse_friendships.pending.pluck(:user_id)
 
@@ -19,6 +20,10 @@ class UsersController < ApplicationController
   def friends
     @user = User.find(params[:id])
     @friends = @user.friends
+    if @user == current_user
+      @pending_sent = current_user.friendships.pending
+      @pending_received = current_user.inverse_friendships.pending  
+    end    
   end
 
   def friend_want
@@ -26,5 +31,4 @@ class UsersController < ApplicationController
     current_user.update(friend_want: !current_user.friend_want)
     redirect_to user_path(@user)
   end
-
 end

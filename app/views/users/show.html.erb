@@ -25,13 +25,13 @@
         method: :patch
       )%>
     <% elsif current_user.friends_with?(@user)%>
-    # 友達登録済み
+    <%# # 友達登録済み %>
       <%= link_to "友達関係を解消しますか？", friendship_path(@friendship),method: :delete %>
     <% elsif current_user.pending_sent_to?(@user)%>
-      # 自分が友達登録申請中
+      <%# # 自分が友達登録申請中 %>
       <p>申請中です。お待ちください</p>
     <% elsif current_user.pending_received_from?(@user)%>
-      # 相手から申請中
+      <%# # 相手から申請中 %>
       <p>承認しますか？</p>
       <%= link_to "友達関係を承認します", friendship_path(@friendship), method: :patch %>
     <% else%>
