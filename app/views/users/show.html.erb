@@ -24,19 +24,21 @@
         friend_want_user_path(@user),
         method: :patch
       )%>
-    <% elsif @user == current_user.friend%>
+    <% elsif current_user.friends_with?(@user)%>
     # 友達登録済み
-    <% elsif current_user.friendship(state: pending) exist%>
-    # 自分が友達登録申請中
-    <% elsif @user.friendship(state: pending) exist%>
-    # 相手から申請中
+      <%= link_to "友達関係を解消しますか？", friendship_path(@friendship),method: :delete %>
+    <% elsif current_user.pending_sent_to?(@user)%>
+      # 自分が友達登録申請中
+      <p>申請中です。お待ちください</p>
+    <% elsif current_user.pending_received_from?(@user)%>
+      # 相手から申請中
+      <p>承認しますか？</p>
+      <%= link_to "友達関係を承認します", friendship_path(@friendship), method: :patch %>
     <% else%>
-      <%= button_to(
-        current_user.friendship.create
-        friendships_path(@user),
+      <%= button_to "友達申請をする"
+        friendships_path(friend_id: @user.id),
         method: :post
-      )%>
-
+      %>
     <%end %>   
   <% end %>
 

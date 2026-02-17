@@ -6,5 +6,18 @@
 <% end %>
 
 <h2>申請中一覧</h2>
+<% @users.each do |user| %>
+  <div>
+    <%= user.nickname%>
+    <p>申請中です。お待ちください</p>
+  </div>
+<% end %>
 
 <h3>承認待ち一覧</h3>
+<% @users.each do |user| %>
+  <div>
+    <%= user.nickname%>
+    <p>承認しますか？</p>
+    <%= link_to user.nickname, user_path(friend) %>
+  </div>
+<% end %>

@@ -32,16 +32,37 @@ class User < ApplicationRecord
   has_many :comments
 
   has_many :friendships
-  # has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
+  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
 
   has_many :friends, 
   ->{where(friendships: { state: :accepted})},
   through: :friendships, 
   source: :friend
 
-  # has_many :inverse_friends,{where(friendships: { state: :accepted})},
-  # through: :inverse_friendships,
-  # source: :user
+  has_many :inverse_friends,{where(friendships: { state: :accepted})},
+  through: :inverse_friendships,
+  source: :user
+
+  # def friendship_with(user)
+  #   friendships.find_by(user_id: user.id)
+  # end
+
+  # def inverse_friendship_with(user)
+  #   inverse_friendships.find_by(user_id: user.id)
+  # end
+
+  def pending_sent_to?(user)
+    friendships.exists?(friend_id: user.id, state: :pending)
+  end
+
+  def pending_received_from?(user)
+    inverse_friendships.exists?(user_id: user.id, state: :pending)
+  end
+
+  def friends_with?(user)
+    friendships.exists?(friend_id: user.id, state: :accepted) ||
+      inverse_friendships.exists?(user_id: user.id, state: :accepted)
+  end
   
-  has_many :message
+  has_many :messages
 end
