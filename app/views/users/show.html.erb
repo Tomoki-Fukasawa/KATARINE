@@ -28,7 +28,8 @@
       <%= link_to "友達関係についての情報はここから", friends_user_path(current_user), method: :get %>
     <% elsif current_user.friends_with?(@user)%>
     <%# # 友達登録済み %>
-      <%= link_to "友達関係を解消しますか？", friendship_path(@friendship),method: :delete %>
+      <%# <%= link_to "友達関係を解消しますか？", friendship_path(@friendship),method: :delete %> %>
+      <%= button_to "友達関係を解消しますか？", reject_friendship_path(@friendship), method: :patch  %>
     <% elsif current_user.pending_sent_to?(@user)%>
       <%# # 自分が友達登録申請中 %>
       <p>申請中です。お待ちください</p>
