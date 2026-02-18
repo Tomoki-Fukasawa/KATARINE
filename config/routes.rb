@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   
-  root to: 'boards#index'
+  root to: 'users#index'
 
   resources :users, only: [:show,:index] do
     # patch :friend_want,on: :collection
@@ -14,5 +14,9 @@ Rails.application.routes.draw do
     resources :comments,only: :create
   end
 
-  resources :friendships, only: [:create, :update, :destroy]
+  resources :friendships, only: [:create, :update, :destroy] do
+    member do
+      patch :reject
+    end
+  end
 end

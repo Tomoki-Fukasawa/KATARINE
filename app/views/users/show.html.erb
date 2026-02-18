@@ -24,6 +24,8 @@
         friend_want_user_path(current_user),
         method: :patch
       )%>
+
+      <%= link_to "友達関係についての情報はここから", friends_user_path(current_user), method: :get %>
     <% elsif current_user.friends_with?(@user)%>
     <%# # 友達登録済み %>
       <%= link_to "友達関係を解消しますか？", friendship_path(@friendship),method: :delete %>

@@ -23,10 +23,13 @@ class FriendshipsController < ApplicationController
         friend_id: friendship.user_id,
         state: :accepted
       )
-      # ) do |f|
-      #   f.state = :accepted
     end
     redirect_back(fallback_location: root_path)
+  end
+
+  def reject
+    friendship = Friendship.find(params[:id])
+    friendship.update(state: :rejected)
   end
 
   def destroy

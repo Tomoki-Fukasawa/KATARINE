@@ -23,7 +23,8 @@ class UsersController < ApplicationController
     if @user == current_user
       @pending_sent = current_user.friendships.pending
       @pending_received = current_user.inverse_friendships.pending  
-    end    
+      @rejected_user = current_user.inverse_friendships.rejected
+    end     
   end
 
   def friend_want
