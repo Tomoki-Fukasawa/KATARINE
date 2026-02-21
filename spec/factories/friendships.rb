@@ -1,6 +1,7 @@
 FactoryBot.define do
-  factory :friend_ship do
+  factory :friendship do
     association :user
     association :friend
+    # state {:pending}
   end
 end
