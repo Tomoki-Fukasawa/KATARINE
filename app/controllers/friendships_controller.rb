@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+  before_action :authenticate_user!
   def create
     friend = User.find(params[:friend_id])
     current_user.friendships.create!(
@@ -28,8 +29,9 @@ class FriendshipsController < ApplicationController
   end
 
   def reject
-    friendship = Friendship.find(params[:id])
+    friendship = current_user.inverse_friendships.find(params[:id])
     friendship.update(state: :rejected)
+    redirect_to friends_user_path(current_user)
   end
 
   def destroy
