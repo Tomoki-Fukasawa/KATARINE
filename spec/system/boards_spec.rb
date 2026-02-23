@@ -25,9 +25,10 @@ RSpec.describe '掲示板投稿', type: :system do
       # 送信するとBoardモデルのカウントが1上がることを確認する
       # expect{
         # find('input[name="commit"]').click
-        click_button '掲示板を公開する'
-        expect(page).to have_content(@board_title)
-        expect(page).to have_content(@board_description)
+      click_button '掲示板を公開する'
+      visit root_path
+      expect(page).to have_content(@board_title)
+      expect(page).to have_content(@board_description)
       # }.to change{Board.count}.by(1) 
       # トップページには先ほど投稿した内容のツイートが存在することを確認する（画像）
       expect(page).to have_content(@board_title)
@@ -85,6 +86,7 @@ RSpec.describe '掲示板編集', type: :system do
       }.to change{Board.count}.by(0)
       # トップページには先ほど変更した内容の掲示板が存在することを確認する（タイトル）
       # expect(page).to have_selector ".content_post[style='background-image: url(#{@board1.title}+編集した画像URL);']"
+      visit root_path
       expect(page).to have_content("#{@board1.title}+編集したtitle")
       # トップページには先ほど変更した内容のツイートが存在することを確認する（説明文）
       expect(page).to have_content("#{@board1.description}+編集したdescription")
