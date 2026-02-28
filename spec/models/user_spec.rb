@@ -9,6 +9,14 @@ RSpec.describe User, type: :model do
       it 'user登録に必要なすべての要素が存在すれば登録できる' do
         expect(@user).to be_valid
       end
+      it '挨拶が欠けていても、登録することができる' do
+        @user.greet = nil
+        expect(@user).to be_valid
+      end
+      it '紹介文が欠けていても、登録することができる' do
+        @user.introduction = nil
+        expect(@user).to be_valid
+      end
     end
     context '新規登録できないとき' do
       it 'nicknameが空では登録できない' do
@@ -118,6 +126,16 @@ RSpec.describe User, type: :model do
         @user.image = nil
         @user.valid?
         expect(@user.errors.full_messages).to include("画像 を入力してください")
+      end
+      it 'あいさつ文が２００字を超えると、登録できない' do
+        @user.greet = Faker::Lorem.characters(number: 201)
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Greet は200文字以内で入力してください")
+      end
+      it '自己紹介文が５００字を超えると、登録できない' do
+        @user.introduction = Faker::Lorem.characters(number: 501)
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Introduction は500文字以内で入力してください")
       end
     end
   end

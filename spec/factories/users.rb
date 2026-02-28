@@ -9,6 +9,10 @@ FactoryBot.define do
     last_name_kana       { 'ヤマダ' }
     first_name_kana        { 'タロウ' }
     birth_day             { Date.new(1995, 5, 20) }
+
+    greet { Faker::Lorem.characters(number: 200) }
+    introduction { Faker::Lorem.characters(number: 500) }
+
     
     after(:build) do |user|
       user.image.attach(

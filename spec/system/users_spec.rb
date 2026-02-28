@@ -6,7 +6,7 @@ RSpec.describe 'ユーザー新規登録', type: :system do
     Capybara.reset_sessions!
   end
   context 'ユーザー新規登録ができるとき' do 
-    it '正しい情報を入力すればユーザー新規登録ができてトップページに移動する' do
+    it '正しい情報をすべて入力すればユーザー新規登録ができてトップページに移動する' do
       # トップページに移動する
       visit root_path
       # トップページにサインアップページへ遷移するボタンがあることを確認する
@@ -18,11 +18,42 @@ RSpec.describe 'ユーザー新規登録', type: :system do
       fill_in 'user_email', with: @user.email
       fill_in 'user_password', with: 'password123'
       fill_in 'user_password_confirmation', with: 'password123'
-
       fill_in 'user_last_name_kanji', with: @user.last_name_kanji
       fill_in 'user_first_name_kanji', with: @user.first_name_kanji
       fill_in 'user_last_name_kana', with: @user.last_name_kana
       fill_in 'user_first_name_kana', with: @user.first_name_kana
+      fill_in 'user_greet', with: @user.greet
+      fill_in 'user_introduction', with: @user.introduction
+      find('#user_birth_day').set(@user.birth_day)
+      attach_file 'user_image', Rails.root.join('spec/fixtures/files/test_image.png')
+      # サインアップボタンを押す
+        click_button 'Sign up'
+    
+      # トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+      expect(page).to have_current_path(root_path)
+      # サインアップページへ遷移するボタンやログインページへ遷移するボタンが表示されていないことを確認する
+      expect(page).to have_no_content('新規登録')
+      expect(page).to have_no_content('ログイン')
+    end
+    it '正しい情報を（挨拶と紹介分以外）入力すればユーザー新規登録ができてトップページに移動する' do
+      # トップページに移動する
+      visit root_path
+      # トップページにサインアップページへ遷移するボタンがあることを確認する
+      expect(page).to have_content('新規登録')
+      # 新規登録ページへ移動する
+      visit new_user_registration_path
+      # ユーザー情報を入力する
+      fill_in 'user_nickname', with: @user.nickname
+      fill_in 'user_email', with: @user.email
+      fill_in 'user_password', with: 'password123'
+      fill_in 'user_password_confirmation', with: 'password123'
+      fill_in 'user_last_name_kanji', with: @user.last_name_kanji
+      fill_in 'user_first_name_kanji', with: @user.first_name_kanji
+      fill_in 'user_last_name_kana', with: @user.last_name_kana
+      fill_in 'user_first_name_kana', with: @user.first_name_kana
+      fill_in 'user_greet', with: ''
+      fill_in 'user_introduction', with: ''
       find('#user_birth_day').set(@user.birth_day)
       attach_file 'user_image', Rails.root.join('spec/fixtures/files/test_image.png')
       # サインアップボタンを押す
@@ -49,7 +80,6 @@ RSpec.describe 'ユーザー新規登録', type: :system do
       fill_in 'user_email', with: ''
       fill_in 'user_password', with: ''
       fill_in 'user_password_confirmation', with: ''
-
       fill_in 'user_last_name_kanji', with: ''
       fill_in 'user_first_name_kanji', with: ''
       fill_in 'user_last_name_kana', with: ''

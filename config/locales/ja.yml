@@ -31,6 +31,7 @@ ja:
         invalid: "は不正な値です"
         taken: "はすでに存在します"
         too_short: "は%{count}文字以上で入力してください"
+        too_long: "は%{count}文字以内で入力してください"
         confirmation: "と一致しません"
 
       models:

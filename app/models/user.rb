@@ -29,6 +29,9 @@ class User < ApplicationRecord
       message: 'には英字と数字の両方を含めて設定してください'
     },if: :password_required?
 
+  validates :greet, length: {maximum: 200}
+  validates :introduction, length: { maximum: 500}
+
   has_many :items
   has_many :buyers
   has_one_attached :image
