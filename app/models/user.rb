@@ -64,5 +64,11 @@ class User < ApplicationRecord
       inverse_friendships.exists?(user_id: user.id, state: :accepted)
   end
   
-  has_many :messages
+  has_many :chat_rooms_as_user1,
+    class_name: "ChatRoom",
+    foreign_key: :user1_id
+
+  has_many :chat_rooms_as_user2,
+    class_name: "ChatRoom",
+    foreign_key: :user2_id
 end

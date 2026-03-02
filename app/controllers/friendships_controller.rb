@@ -24,6 +24,11 @@ class FriendshipsController < ApplicationController
         friend_id: friendship.user_id,
         state: :accepted
       )
+
+      ChatRoom.find_or_create_by!(
+        user1_id: [friendship.user_id, friendship.friend_id].min,
+        user2_id: [friendship.user_id, friendship.friend_id].max
+      )
     end
     redirect_back(fallback_location: root_path)
   end
