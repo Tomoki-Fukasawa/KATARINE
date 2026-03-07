@@ -19,4 +19,8 @@ Rails.application.routes.draw do
       patch :reject
     end
   end
+
+  resources :chat_rooms, only: [:index,:show] do
+    resources :messages, only: [:create, :destroy]
+  end
 end

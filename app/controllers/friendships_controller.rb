@@ -2,10 +2,17 @@ class FriendshipsController < ApplicationController
   before_action :authenticate_user!
   def create
     friend = User.find(params[:friend_id])
-    current_user.friendships.create!(
-      friend: friend,
-      state: :pending
-    )
+    # inverse_friendship = Friendship.find_by(user_id:friend, friend_id:current_user ,state: :pending)
+
+    if Friendship.exists?(user_id:friend, friend_id:current_user ,state: :pending)
+      puts "このユーザーはあなたと友達になりたがっています"
+      return
+    else
+      current_user.friendships.create!(
+        friend: friend,
+        state: :pending
+      )
+    end
     redirect_back(fallback_location: root_path)
   end
 
@@ -30,6 +37,8 @@ class FriendshipsController < ApplicationController
         user2_id: [friendship.user_id, friendship.friend_id].max
       )
     end
+    # @chat_room=chat_room.create(user1_id: user1, user2_id: user2)
+    
     redirect_back(fallback_location: root_path)
   end
 
