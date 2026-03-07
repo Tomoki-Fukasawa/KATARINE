@@ -4,7 +4,7 @@ class FriendshipsController < ApplicationController
     friend = User.find(params[:friend_id])
     # inverse_friendship = Friendship.find_by(user_id:friend, friend_id:current_user ,state: :pending)
 
-    if Friendship.exists?(user_id:friend, friend_id:current_user ,state: :pending)
+    if Friendship.exists?(user_id:friend.id, friend_id:current_user.id ,state: :pending)
       puts "このユーザーはあなたと友達になりたがっています"
       return
     else
@@ -32,10 +32,10 @@ class FriendshipsController < ApplicationController
         state: :accepted
       )
 
-      ChatRoom.find_or_create_by!(
-        user1_id: [friendship.user_id, friendship.friend_id].min,
-        user2_id: [friendship.user_id, friendship.friend_id].max
-      )
+      # ChatRoom.find_or_create_by!(
+      #   user1_id: [friendship.user_id, friendship.friend_id].min,
+      #   user2_id: [friendship.user_id, friendship.friend_id].max
+      # )
     end
     # @chat_room=chat_room.create(user1_id: user1, user2_id: user2)
     
