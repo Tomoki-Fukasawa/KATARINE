@@ -1,0 +1,20 @@
+<div class="chat_rooms_list">
+  <div class="rooms_list_title">
+    <div class="say_come">何話す？</div>
+  </div>
+  <div class="member_lists">
+    <% @chat_rooms.each do |chatroom|%>
+      <div class="room">
+        <div class="room_name">
+          <%= chatroom.user.nickname %>
+        </div>
+        <div class="user_image">
+          <%= image_tag user.image.variant(resize: '100x100') ,class:"item-box-img" if user.image.attached?%>
+        </div>
+        <div class="room_show_link">
+          <%= link_to "この人と会話する", chat_room_path(chatroom)%>
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div>
