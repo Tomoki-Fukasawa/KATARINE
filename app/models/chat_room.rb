@@ -9,6 +9,10 @@ class ChatRoom < ApplicationRecord
 
   before_validation :sort_users
 
+  def partner(user)
+    user == user1 ? user2 : user1
+  end
+  
   private
 
   def sort_users
@@ -19,7 +23,4 @@ class ChatRoom < ApplicationRecord
     end
   end
 
-  def partner(user)
-    user == user1 ? user2 : user1
-  end
 end
