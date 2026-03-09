@@ -2,7 +2,7 @@ class ChatRoomsController < ApplicationController
   def index
     @chat_room=ChatRoom.new
     @chat_rooms=ChatRoom.where(user1_id: current_user.id).or(ChatRoom.where(user2_id: current_user.id))
-    @partner = @chat_room.partner(current_user)
+    @partner = partner(current_user)
   end
 
   def show
@@ -18,8 +18,8 @@ class ChatRoomsController < ApplicationController
       redirect_to root_path
       return
     end
-    @message=@chat_room.messages.find(message_params[:id])
-    @messages=@chat_room.messages
+    @message=@chat_room.messages
+    @messages=@chat_room.messages.includes(:user)
     @partner = @chat_room.partner(current_user)
   end
 
