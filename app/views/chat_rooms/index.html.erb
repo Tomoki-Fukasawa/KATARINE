@@ -6,10 +6,10 @@
     <% @chat_rooms.each do |chatroom|%>
       <div class="room">
         <div class="room_name">
-          <%= @partner.nickname %>
+          <%= chatroom.partner(current_user).nickname %>
         </div>
         <div class="user_image">
-          <%= image_tag @partner.image.variant(resize: '100x100') ,class:"item-box-img" if @partner.image.attached?%>
+          <%= image_tag chatroom.partner(current_user).image.variant(resize: '100x100') ,class:"item-box-img" if chat_room.partner(current_user).image.attached?%>
         </div>
         <div class="room_show_link">
           <%= link_to "この人と会話する", chat_room_path(chatroom)%>
