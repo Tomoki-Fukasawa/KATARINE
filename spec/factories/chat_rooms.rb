@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :chat_room do
-    name {Faker::Team.name}
+    association :user1, factory: :user
+    association :user2, factory: :user
   end
 end

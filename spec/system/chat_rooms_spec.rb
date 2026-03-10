@@ -1,25 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe 'チャットルームの削除機能', type: :system do
+RSpec.describe 'チャットルーム削除', type: :system do
   before do
-    @room_user = FactoryBot.create(:room_user)
+    @user1 = FactoryBot.create(:user)
+    @user2 = FactoryBot.create(:user)
+
+    @chat_room = FactoryBot.create(
+      :chat_room,
+      user1: @user1,
+      user2: @user2
+    )
+
+    FactoryBot.create_list(
+      :message,
+      5,
+      chat_room: @chat_room,
+      user: @user1
+    )
   end
 
-  it 'チャットルームを削除すると、関連するメッセージがすべて削除されている' do
-    # サインインする
-    sign_in(@room_user.user)
+  it 'チャットを削除するとメッセージも削除される' do
+    # ログイン
+    sign_in(@user1)
 
-    # 作成されたチャットルームへ遷移する
-    click_on(@room_user.room.name)
+    # チャットルームへ
+    visit chat_room_path(@chat_room)
 
-    # メッセージ情報を5つDBに追加する
-    FactoryBot.create_list(:message, 5, room_id: @room_user.room.id, user_id: @room_user.user.id)
-    # 「チャットを終了する」ボタンをクリックすることで、作成した5つのメッセージが削除されていることを確認する
+    expect(@chat_room.messages.count).to eq(5)
+
     expect{
-      find_link('チャットを終了', href: room_path(@room_user.room)).click
-      sleep 1
-    }.to change{@room_user.room.messages.count}.by(-5)
-    # トップページに遷移していることを確認する
+      click_on 'チャットを終了'
+    }.to change{ Message.count }.by(-5)
+
     expect(page).to have_current_path(root_path)
   end
 end

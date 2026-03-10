@@ -11,7 +11,7 @@ class Friendship < ApplicationRecord
   validates :user_id,uniqueness: {scope: :friend_id }
 
   def create_chat_room
-    user1_id,user2_id =[user_id, friend_id].sort_users
+    user1_id,user2_id =[user_id, friend_id].sort
 
     ChatRoom.find_or_create_by(
       user1_id: user1_id,

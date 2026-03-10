@@ -4,6 +4,8 @@ ja:
       user: ユーザー
       board: 掲示板
       comment: コメント
+      chat_room: チャットルーム
+      message: メッセージ
 
     attributes:
       user:
@@ -24,6 +26,16 @@ ja:
       
       comment:
         content: 内容
+
+      chat_room:
+        user1: ユーザー1
+        user2: ユーザー2
+
+      message:
+        content: メッセージ
+        image: 画像
+        user: ユーザー
+        chat_room: チャットルーム
 
     errors:
       messages:
@@ -46,3 +58,15 @@ ja:
               required: "が空です"          
             board:
               required: "が空です"          
+        chat_room:
+            attributes:
+              user1:
+                required: "を入力してください"
+              user2:
+                required: "を入力してください"
+        message:
+            attributes:
+              user:
+                required: "が存在しません"
+              chat_room:
+                required: "が存在しません"
