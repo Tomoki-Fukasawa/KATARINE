@@ -9,7 +9,7 @@ class Message < ApplicationRecord
   private
 
   def content_or_image_present
-    if content.blank? && image.blank?
+    if content.blank? && !image.attached?
       errors.add(:base, "メッセージを入力してください")
     end
   end

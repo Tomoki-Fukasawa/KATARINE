@@ -41,6 +41,8 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :system
 
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

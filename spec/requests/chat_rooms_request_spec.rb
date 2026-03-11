@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "ChatRooms", type: :request do
+  before do
+    @user1 = FactoryBot.create(:user)
+  end
+
   describe "GET /chat_rooms" do
     it "一覧ページが表示される" do
       sign_in @user1
