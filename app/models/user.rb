@@ -32,8 +32,6 @@ class User < ApplicationRecord
   validates :greet, length: {maximum: 200}
   validates :introduction, length: { maximum: 500}
 
-  has_many :items
-  has_many :buyers
   has_one_attached :image
   has_many :boards
   has_many :comments
@@ -71,4 +69,13 @@ class User < ApplicationRecord
   has_many :chat_rooms_as_user2,
     class_name: "ChatRoom",
     foreign_key: :user2_id
+
+  has_many :items
+  has_many :sent_item_requests,
+          class_name: "ItemRequest",
+          foreign_key: :sender_id
+
+  has_many :received_item_requests,
+           class_name: "ItemRequest",
+           foreign_key: :receiver_id
 end
