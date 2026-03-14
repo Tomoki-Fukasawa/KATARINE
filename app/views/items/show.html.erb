@@ -1,0 +1,65 @@
+<%= render "shared/header" %>
+
+<div class="item-show">
+  <div class="item-box">
+    <h2 class="name">
+      <%= @item.item_name %>
+    </h2>
+    <div class="item-img-content">
+      <%= image_tag @item.image.variant(resize: '300x300') ,class:"item-box-img" %>
+      <%if @item.item_requests.where(transfer: :accepted).exists? or @item.item_requests.where(transfer: :completed).exists?%>
+      
+        <div class="sold-out">
+          <span>なくなりました。申し訳ありません!!</span>
+        </div>
+      <%end%>
+    </div>
+
+    <%if user_signed_in? && !@item.buyer.present?%>
+      <% if current_user.id ==@item.user_id %>
+        <%= link_to "物品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
+        <p class="or-text">or</p>
+        <%= link_to "削除", item_path(@item), data: {turbo_method: :delete}, class:"item-destroy" %>
+      <% else%>
+        <%= link_to "受け取り申請画面に進む", item_item_requests_path(@item) ,data:{turbo: false},class:"item-red-btn"%>
+      <% end %>
+    <% end%>
+
+    <div class="item-explain-box">
+      <span><%= @item.item_script %></span>
+    </div>
+    <table class="detail-table">
+      <tbody>
+        <tr>
+          <th class="detail-item">出品者</th>
+          <td class="detail-value"><%= @item.user.nickname %></td>
+        </tr>
+        <tr>
+          <th class="detail-item">カテゴリー</th>
+          <td class="detail-value"><%= Category.find(@item.category_id).name %></td>
+        </tr>
+        <tr>
+          <th class="detail-item">商品の状態</th>
+          <td class="detail-value"><%= ItemState.find(@item.item_state_id).name %></td>
+        </tr>
+          <th class="detail-item">発送元の地域</th>
+          <td class="detail-value"><%= Prefecture.find(@item.prefecture_id).name %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="links">
+    <a href="#" class="change-item-btn">
+      ＜ 前の商品
+    </a>
+    <a href="#" class="change-item-btn">
+      後ろの商品 ＞
+    </a>
+  </div>
+  
+  <a href="#" class="another-item"><%= Category.find(@item.category_id).name %>をもっと見る</a>
+  
+</div>
+
+<%= render "shared/footer" %>

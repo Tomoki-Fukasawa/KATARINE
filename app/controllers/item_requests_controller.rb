@@ -1,23 +1,33 @@
 class ItemsRequestsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, only: [:index, :create]
+  before_action :set_item, only: [:index, :new,:create]
   before_action :move_to_root, only: [:index]
 
   
+  def new
+    @item = Item.find(params[:item_id])
+    @item_request = ItemRequest.new
+  end
 
   def create
     @item=Item.find(params[:item_id])
-    if current_user.item_request.exists?(item_id:@item.id)
-      puts "この物品は既に作成されています。"
+    item_request = @item.item_requests.find(params[:id])
+    if @item.item_requests.exists?(receiver:@item.user)
+      # puts "この物品は既に作成されています。"
       redirect_back(fallback_location: root_path)
       return
     end
-    current_user.item_request.create!(
+    current_user.item_request.create(
       item: @item,
       receiver: @item.user,
       transfer: :pending
     )
-    redirect_back(fallback_location: root_path)
+    if item_request.save
+      redirect_back(fallback_location: root_path)
+    else
+      render_to "new"
+    end
+    
   end
 
   def update

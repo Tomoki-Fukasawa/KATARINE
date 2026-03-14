@@ -8,5 +8,6 @@ class CreateItemRequests < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
+    add_index :item_requests, [:item,:sender], unique: true
   end
 end
