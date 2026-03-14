@@ -1,7 +1,6 @@
 class ItemRequest < ApplicationRecord
 
-  enum state: { waiting: 0, accepted: 1, rejected: 2 , completed: 3}
-  # enum state: { waiting: 0, accepted: 1, rejected: 2 , shipping: 3,completed: 4}
+  enum state: { waiting: 0, accepted: 1, rejected: 2 , meeting: 3,completed: 4}
 
   belongs_to :item
   belongs_to :sender, class_name: "User"
