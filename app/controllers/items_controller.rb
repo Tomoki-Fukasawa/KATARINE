@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   before_action :move_to_index, only: [:edit, :destroy]
 
   def index
-    @items = Item.all.order('created_at DESC')
+    @items = Item.where(reservation: :available).order('created_at DESC')
   end
 
   def new
@@ -12,12 +12,17 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
-    if @item.save
-      redirect_to root_path
+    if current_user.item.exists?(reservation: :available)
+      return 
     else
-      render :new, status: :unprocessable_entity
+      @item = Item.new(item_params)
+      if @item.save
+        redirect_to root_path
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy
@@ -32,18 +37,21 @@ class ItemsController < ApplicationController
   end
 
   def update
-    if @item.update(item_params)
-      redirect_to item_path(@item)
-    else
-      render :edit, status: :unprocessable_entity
+    unless item.receiver_id == current_user.id
+      redirect_back(fallback_location: root_path)
+      return
     end
+
+    ActiveRecord::Base.transaction do
+      item.update!(reservation: :reserved)
+    end
+
   end
 
   private
 
   def item_params
-    params.require(:item).permit(:item_name, :item_script, :category_id, :item_state_id, :deliver_pay_id, :region_id, :deliver_day_id,
-                                 :price, :image).merge(user_id: current_user.id)
+    params.require(:item).permit(:item_name, :item_script, :category_id, :item_state_id,:prefecture_id, :image).merge(user_id: current_user.id)
   end
 
   def set_item
@@ -51,7 +59,7 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    return if (current_user.id == @item.user_id) && @item.buyer.nil?
+    return if (current_user.id == @item.user_id) && @item.item_request.nil?
 
     redirect_to action: :index
   end

@@ -1,23 +1,44 @@
-class BuyersController < ApplicationController
+class ItemsRequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:index, :create]
   before_action :move_to_root, only: [:index]
 
-  def index
-    # gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-    @buyer_address = BuyerAddress.new
-  end
+  
 
   def create
-    @item_request_address = BuyerAddress.new(buyer_params)
-    if @buyer_address.valid?
-      pay_item
-      @buyer_address.save
-      redirect_to root_path
-    else
-      # gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-      render :index, status: :unprocessable_entity
+    @item=Item.find(params[:item_id])
+    if current_user.item_request.exists?(item_id:@item.id)
+      puts "この物品は既に作成されています。"
+      redirect_back(fallback_location: root_path)
+      return
     end
+    current_user.item_request.create!(
+      item: @item,
+      receiver: @item.user,
+      transfer: :pending
+    )
+    redirect_back(fallback_location: root_path)
+  end
+
+  def update
+    item_request = @item.item_requests.find(params[:id])
+      if @item.item_requests.where(transfer: :accepted).exists? or @item.item_requests.where(transfer: :completed).exists?
+        return
+      else
+        ActiveRecord::Base.transaction do
+          item_request.update!(item: @item,sender_id: item_request.user,receiver_id: @item.user,transfer: :accepted)
+          @item.item_requests.where.not(id: item_request.id).update_all(transfer: :rejected)
+        end
+      end
+    redirect_back(fallback_location: root_path)
+  end
+
+  def destroy
+    item_request=current_user.item_requests.find(params[:id])
+    ActiveRecord::Base.transaction do
+      item_request.destroy!
+    end
+    redirect_back(fallback_location: root_path)
   end
 
   private
@@ -26,23 +47,8 @@ class BuyersController < ApplicationController
     @item = Item.find(params[:item_id])
   end
 
-  def item_request_params
-    params.require(:buyer_address).permit(:postcode, :region_id, :local, :house_number, :building, :phone_number).merge(
-      user_id: current_user.id, item_id: params[:item_id], token: params[:token]
-    )
-  end
-
-  # def pay_item
-  #   Payjp.api_key = ENV['PAYJP_SECRET_KEY']
-  #   Payjp::Charge.create(
-  #     amount: @item.price,
-  #     card: buyer_params[:token],
-  #     currency: 'jpy'
-  #   )
-  # end
-
   def move_to_root
-    return if (current_user.id != @item.user_id) && @item.buyer.nil?
+    return if (current_user.id != @item.user_id) && !item_requests.exists?
 
     redirect_to root_path
   end

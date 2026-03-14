@@ -71,6 +71,8 @@ class User < ApplicationRecord
     foreign_key: :user2_id
 
   has_many :items
+  has_many :item_requests
+
   has_many :sent_item_requests,
           class_name: "ItemRequest",
           foreign_key: :sender_id
