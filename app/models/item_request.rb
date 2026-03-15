@@ -7,5 +7,4 @@ class ItemRequest < ApplicationRecord
 
   belongs_to :receiver, class_name: "User", optional: true
 
-  belongs_to :user
 end

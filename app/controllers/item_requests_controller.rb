@@ -1,53 +1,50 @@
 class ItemsRequestsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, only: [:index, :new,:create]
-  before_action :move_to_root, only: [:index]
+  before_action :set_item, only: [:new,:create]
+  # before_action :move_to_root, only: [:new,:create]
+  before_action :sent_item_request,only:[:update,:destroy]
 
-  
+  def index
+    @item_requests = ItemRequest.where.not(transfer: :completed).order('created_at DESC')
+  end
+
   def new
-    @item = Item.find(params[:item_id])
     @item_request = ItemRequest.new
   end
 
   def create
-    @item=Item.find(params[:item_id])
-    item_request = @item.item_requests.find(params[:id])
-    if @item.item_requests.exists?(receiver:@item.user)
-      # puts "この物品は既に作成されています。"
+    if @item.item_requests.exists?(sender: current_user) or @item.reserved? or @item.completed?
       redirect_back(fallback_location: root_path)
-      return
     end
-    current_user.item_request.create(
+    ItemRequest.create(
       item: @item,
-      receiver: @item.user,
+      sender: current_user,
       transfer: :pending
     )
-    if item_request.save
+    if ItemRequest.save
       redirect_back(fallback_location: root_path)
     else
       render_to "new"
     end
-    
   end
 
   def update
-    item_request = @item.item_requests.find(params[:id])
-      if @item.item_requests.where(transfer: :accepted).exists? or @item.item_requests.where(transfer: :completed).exists?
-        return
-      else
-        ActiveRecord::Base.transaction do
-          item_request.update!(item: @item,sender_id: item_request.user,receiver_id: @item.user,transfer: :accepted)
-          @item.item_requests.where.not(id: item_request.id).update_all(transfer: :rejected)
-        end
+    if @item_request.completed?
+      return
+    elsif @item_request.accepted? 
+      @item.update!(reservation: :completed)
+    else
+      ActiveRecord::Base.transaction do
+        @item_request.update!(item: @item,sender_id: @item_request.user,transfer: :accepted)
+        @item.item_requests.where.not(id: item_request.id).update_all(transfer: :rejected)
+        @item.update!(reservation: :reserved)
       end
+    end
     redirect_back(fallback_location: root_path)
   end
 
   def destroy
-    item_request=current_user.item_requests.find(params[:id])
-    ActiveRecord::Base.transaction do
-      item_request.destroy!
-    end
+    @item_request.destroy!
     redirect_back(fallback_location: root_path)
   end
 
@@ -57,9 +54,13 @@ class ItemsRequestsController < ApplicationController
     @item = Item.find(params[:item_id])
   end
 
-  def move_to_root
-    return if (current_user.id != @item.user_id) && !item_requests.exists?
-
-    redirect_to root_path
+  def sent_item_request
+    @item_request=ItemRequest.find(params[:id])
   end
+
+  # def move_to_root
+  #   return if (current_user.id != @item_request.user_id)
+
+  #   redirect_to root_path
+  # end
 end

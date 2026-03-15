@@ -12,7 +12,7 @@ class ItemsController < ApplicationController
   end
 
   def create
-    if current_user.item.exists?(reservation: :available)
+    if Item.exists?(reservation: :available?)
       return 
     else
       @item = Item.new(item_params)
@@ -37,15 +37,10 @@ class ItemsController < ApplicationController
   end
 
   def update
-    unless item.receiver_id == current_user.id
+    unless @item.user_id == current_user.id
       redirect_back(fallback_location: root_path)
       return
     end
-
-    ActiveRecord::Base.transaction do
-      item.update!(reservation: :reserved)
-    end
-
   end
 
   private
@@ -59,7 +54,7 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    return if (current_user.id == @item.user_id) && @item.item_request.nil?
+    return if (current_user.id == @item.user_id) && @item.item_requests.empty?
 
     redirect_to action: :index
   end
