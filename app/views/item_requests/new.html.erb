@@ -4,8 +4,8 @@
 <div class='transaction-contents'>
   <%= form_with model:@item,@item_request, url: item_requests_path, id: 'charge-form', class: 'transaction-form-wrap',local: true do |f| %>
   <%= render 'shared/error_messages', model: f.object %>
-    <%=@item.item_name %>
-    <%=@item.user.nickname%>
+    <h3>物品名：<%=@item.item_name %></h3>
+    <h4>提供者:<%=@item.user.nickname%></h4>
 
     <%= f.submit "上記の内容で受け取りを希望します",class:"buy-red-btn", id:"button"%>
 
