@@ -1,0 +1,11 @@
+<h2>申請中一覧</h2>
+
+<% @item_requests.each do |request| %>
+  <div class="requests">
+    <p>作成者：<%= request.item.user.nickname %></p>
+    <p><%= request.item.item_name %></p>
+    <p>状態: <%= request.transfer %></p>
+    <%= link_to %>
+  </div>
+  
+<% end %>

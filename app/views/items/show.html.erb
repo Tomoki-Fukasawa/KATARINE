@@ -49,17 +49,39 @@
     </table>
   </div>
 
-  <div class="links">
-    <a href="#" class="change-item-btn">
-      ＜ 前の商品
-    </a>
-    <a href="#" class="change-item-btn">
-      後ろの商品 ＞
-    </a>
+  <div class="lists">
+    <ul class='item_requests-lists'>
+      <% @item_requests.each do |request|%>
+        <li class='list'>
+          <%= link_to item_path(request.item) do %>
+            <div class='item-img-content'>
+              <%= image_tag request.sender.image.variant(resize: '100x100'), class: "item-img" if request.sender.image.attached? %>
+              <%if request.accepted? %>
+                <div class='sold-out'>
+                  <span>譲渡完了!!</span>
+                </div>
+              <%end%>
+            </div>
+            <div class='item-info'>
+              <h3 class='item-name'>
+                <%= request.item.item_name %>
+              </h3>
+            </div>
+          <% end %>
+        </li>
+      <%end%>
+      <% if @item.item_requests.count==0 %>
+        <li class='list'>
+          <div class='item-info'>
+            <h3 class='item-name'>
+              まだ相手は見つかっていません
+            </h3>
+          </div>
+        </li>
+      <%end%>
+    </ul>
   </div>
-  
-  <a href="#" class="another-item"><%= Category.find(@item.category_id).name %>をもっと見る</a>
-  
+
 </div>
 
 <%= render "shared/footer" %>

@@ -11,7 +11,7 @@
           <%= link_to item_path(item.id) do %>
             <div class='item-img-content'>
               <%= image_tag item.image.variant(resize: '300x300'), class: "item-img" if item.image.attached? %>
-              <%if item.buyer.present? %>
+              <%if  item.item_requests.where(transfer: :accepted).exists? or item.item_requests.where(transfer: :completed).exists? %>
                 <div class='sold-out'>
                   <span>Sold Out!!</span>
                 </div>

@@ -10,7 +10,6 @@
   <h2><%= current_user.nickname %>の友達申請中一覧</h2>
   <div id="pending_sent">
     <% @pending_sent.each do |sent_user| %>
-      
         <%= sent_user.friend.nickname%>
         <p>申請中です。お待ちください</p>
     <% end %>
@@ -19,9 +18,7 @@
   <h3><%= current_user.nickname %>の友達承認待ち一覧</h3>
   <div id="pending_sent">
     <% @pending_received.each do |give_user| %>
-      
         <%= give_user.user.nickname%>
-        <%# <%= link_to "この人と友達になりますか？", friendship_path(give_user.user), method: :put  %> %>
         <%= button_to "この人と友達になりますか？", friendship_path(give_user), method: :put  %>
         <%= button_to "この人を拒否しますか？", reject_friendship_path( give_user), method: :patch  %>
     <% end %>
@@ -30,10 +27,7 @@
   <div id="rejected_users">
     <% @rejected_user.each do |reject_user| %>
         <%= reject_user.user.nickname%>
-        <%# <%= link_to "この人と友達になりますか？", friendship_path(give_user.user), method: :put  %> %>
-        <%# <%= button_to "この人と友達になりますか？", friendship_path(friend_id: give_user.user), method: :put  %>
-        <%# <%= button_to "この人を拒否しますか？", reject_friendship_path(friend_id: give_user.user), method: :patch  %> %> %>
     <% end %>
   </div>
+  
 <% end %>
-
