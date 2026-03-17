@@ -7,6 +7,7 @@ class CreateItemRequests < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-    add_index :item_requests, [:item,:sender], unique: true
+    add_index :item_requests, [:item_id,:sender_id], unique: true
+    add_index :item_requests, :item_id, unique: true, where: "transfer = 1"
   end
 end

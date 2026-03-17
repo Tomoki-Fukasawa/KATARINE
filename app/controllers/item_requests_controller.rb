@@ -2,10 +2,12 @@ class ItemsRequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:new,:create]
   # before_action :move_to_root, only: [:new,:create]
-  before_action :sent_item_request,only:[:update,:destroy]
+  before_action :sent_item_request,only:[:accept,:complete,:destroy]
+  before_action :authorize_accept!,only:[:accept]
+  before_action :authorize_complete!,only:[:complete]
 
   def index
-    @item_requests = ItemRequest.where.not(transfer: :completed).order('created_at DESC')
+    @item_requests = ItemRequest.where.not(transfer: ItemRequest.transfers[:completed]).order('created_at DESC')
   end
 
   def new
@@ -13,34 +15,46 @@ class ItemsRequestsController < ApplicationController
   end
 
   def create
-    if @item.item_requests.exists?(sender: current_user) or @item.reserved? or @item.completed?
-      redirect_back(fallback_location: root_path)
+    # request_judge(@item,current_user)
+    if @item.reserved? or @item.completed?
+      return redirect_back(fallback_location: root_path)
     end
-    ItemRequest.create(
+    @item_request=ItemRequest.new(
       item: @item,
       sender: current_user,
-      transfer: :pending
+      transfer: :waiting
     )
-    if ItemRequest.save
+    if @item_request.save
       redirect_back(fallback_location: root_path)
     else
-      render_to "new"
+      render_to :new
     end
   end
 
-  def update
-    if @item_request.completed?
-      return
-    elsif @item_request.accepted? 
-      @item.update!(reservation: :completed)
-    else
-      ActiveRecord::Base.transaction do
-        @item_request.update!(item: @item,sender_id: @item_request.user,transfer: :accepted)
-        @item.item_requests.where.not(id: item_request.id).update_all(transfer: :rejected)
-        @item.update!(reservation: :reserved)
-      end
+  def accept
+    begin
+      @item_request.request_accepted!
+      redirect_to item_path(@item_request.item), notice: "承認しました"
+    rescue ActiveRecord::RecordNotUnique
+      redirect_to item_path(@item_request.item), alert: "他のユーザーが先に承認しました"
     end
-    redirect_back(fallback_location: root_path)
+    # request_update_judge(@item,@item_request)
+    # if @item_request.completed?
+    #   return
+    # elsif @item_request.accepted? 
+    #   @item.update!(reservation: :completed)
+    # else
+    #   accepted!(@item,@item_request)
+    #   # ActiveRecord::Base.transaction do
+    #   #   @item_request.update!(sender_id: @item_request.sender.id,transfer: :accepted)
+    #   #   @item.item_requests.where.not(id: @item_request.id).update_all(transfer: :rejected)
+    #   #   @item.update!(reservation: :reserved)
+    #   # end
+    # end
+  end
+
+  def complete
+    @item_request.request_completed!
   end
 
   def destroy
@@ -58,9 +72,15 @@ class ItemsRequestsController < ApplicationController
     @item_request=ItemRequest.find(params[:id])
   end
 
-  # def move_to_root
-  #   return if (current_user.id != @item_request.user_id)
+  def authorize_complete!
+    return if current_user == @item_request.item.user
 
-  #   redirect_to root_path
-  # end
+    redirect_to root_path, alert: "権限がありません"
+  end
+
+  def authorize_complete!
+    return if current_user == @item_request.sender
+
+    redirect_to root_path, alert: "権限がありません"
+  end
 end

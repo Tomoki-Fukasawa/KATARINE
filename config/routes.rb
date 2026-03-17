@@ -25,5 +25,10 @@ Rails.application.routes.draw do
   end
   resources :items do
     resources :item_requests, only:[:index,:create]
+      member do
+        patch :accept
+        patch :complete
+      end
+    end
   end
 end

@@ -12,17 +12,18 @@ class ItemsController < ApplicationController
   end
 
   def create
-    if Item.exists?(reservation: :available?)
-      return 
-    else
+    # item_create_judge(item)
+    # if current_user.items.exists?(item: @item,reservation: :available?)#[このitem]に対する同一userへの二度申請の防止だが、これで対策できてるか分からない
+    #   return 
+    # else
       @item = Item.new(item_params)
       if @item.save
         redirect_to root_path
       else
         render :new, status: :unprocessable_entity
       end
-    end
-    redirect_back(fallback_location: root_path)
+    # end
+    # redirect_back(fallback_location: root_path)
   end
 
   def destroy
@@ -37,9 +38,19 @@ class ItemsController < ApplicationController
   end
 
   def update
-    unless @item.user_id == current_user.id
-      redirect_back(fallback_location: root_path)
+    # item_update_judge(@item)
+    # unless @item.user_id == current_user.id
+    #   redirect_back(fallback_location: root_path)
+    #   return
+    # end
+    if @item.user_id != current_user.id
+      redirect_to root_path
       return
+    end
+    if @item.update(item_params)
+      redirect_to @item
+    else
+      render :edit,status: :unprocessable_entity
     end
   end
 

@@ -1,7 +1,7 @@
 class Item < ApplicationRecord
   has_many :item_requests, dependent: :destroy
   belongs_to :user
-  has_one_attached :item
+  has_one_attached :image
 
   enum reservation: { available: 0, reserved: 1, completed: 2}
 
@@ -25,4 +25,5 @@ class Item < ApplicationRecord
   def image_presence
     errors.add(:image, 'を添付してください') unless image.attached?
   end
+  
 end
