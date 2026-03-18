@@ -51,16 +51,38 @@
 
   <div class="lists">
     <ul class='item_requests-lists'>
+      <% @item.each do |item|%>
+        <% if item.completed?%>
+          <h5>譲渡完了</h5>
+        <% elsif item.reserved?%>
+          <h4>この人に物品を渡すことが確定しました。チャットで受け渡す日にちや場所を決めてください。</h4>
+        <% elsif %>
+          <h3>この人に物品を渡しますか？</h3>
+          <%= link_to "渡したい場合はこちらをクリック"%>
+        <% end %>
+      <% end %>
       <% @item_requests.each do |request|%>
         <li class='list'>
-          <%= link_to item_path(request.item) do %>
+          <%= link_to "このひとについて詳しい情報はこちら", user_path(request.sender) do %>
             <div class='item-img-content'>
               <%= image_tag request.sender.image.variant(resize: '100x100'), class: "item-img" if request.sender.image.attached? %>
-              <%if request.accepted? %>
+              <%= request.sender.nickname%>
+
+              <%if request.completed? %>
                 <div class='sold-out'>
-                  <span>譲渡完了!!</span>
+                  <h3>譲渡完了!!</h3>
+                </div>
+              <%elsif request.accepted?%>
+                <div class='sold-out'>
+                  <h4>受け取りましたか？</h4>
+                  <%=link_to "受け取ったら、こちらをクリック",item_request_path(request.item)%>
+                </div>
+              <% elsif request.waiting?%>
+                <div class='sold-out'>
+                  <h3>返答を待っています</h3>
                 </div>
               <%end%>
+
             </div>
             <div class='item-info'>
               <h3 class='item-name'>
