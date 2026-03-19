@@ -8,6 +8,7 @@ class UsersController < ApplicationController
       inverse_pending_ids = current_user.inverse_friendships.pending.pluck(:user_id)
       exclude_ids = (accepted_ids + current_pending_ids +inverse_pending_ids).uniq
       @users = User.where(friend_want: true).where.not(id: current_user.id).where.not(id: exclude_ids)
+      @items=@user.items.includes(:user)
     else
       @users = User.where(friend_want: true)
     end

@@ -23,7 +23,7 @@ class ItemsRequestsController < ApplicationController
       transfer: :waiting
     )
     if @item_request.save
-      redirect_back(fallback_location: root_path)
+      redirect_to item_path(@item)
     else
       render_to :new
     end
@@ -39,7 +39,12 @@ class ItemsRequestsController < ApplicationController
   end
 
   def complete
-    @item_request.request_completed!(@item_request.sender)
+    begin
+      @item_request.request_completed!(@item_request.sender), 
+      redirect_to item_path(@item_request.item), notice: "完了しました"
+    rescue ActiveRecord::RecordNotUnique
+      redirect_to item_path(@item_request.item), alert: "まだ完了していません"
+    end
   end
 
   def destroy
@@ -57,7 +62,7 @@ class ItemsRequestsController < ApplicationController
     @item_request=ItemRequest.find(params[:id])
   end
 
-  def authorize_complete!
+  def authorize_accept!
     return if current_user == @item_request.item.user
 
     redirect_to root_path, alert: "権限がありません"
