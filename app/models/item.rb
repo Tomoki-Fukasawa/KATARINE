@@ -25,5 +25,13 @@ class Item < ApplicationRecord
   def image_presence
     errors.add(:image, 'を添付してください') unless image.attached?
   end
+
+  def status_reservation_japanese
+    case reservation
+    when "available" then "募集中"
+    when "reserved" then "受け渡し中"
+    when "completed" then "完了"
+    end
+  end
   
 end

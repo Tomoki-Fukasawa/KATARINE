@@ -20,7 +20,8 @@ class UsersController < ApplicationController
     if user_signed_in?
       @friendship = current_user.friendships.find_by(friend_id: @user.id) || current_user.inverse_friendships.find_by(user_id: @user.id) 
     end
-    
+    @item_requests=@user.item_requests.includes(:item)
+    @items=@user.items.includes(:user)
   end
 
   def friends

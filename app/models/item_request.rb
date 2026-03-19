@@ -29,5 +29,12 @@ class ItemRequest < ApplicationRecord
       item.update!(reservation: :completed)
     end
   end
-  
+  def status_transfer_japanese
+    case transfer
+    when "waiting" then "承認待ち"
+    when "accepted" then "受け渡し待ち"
+    when "rejected" then "見送り"
+    when "completed" then "完了"
+    end
+  end
 end

@@ -1,11 +1,11 @@
-<h2>申請中一覧</h2>
+<h2><%= current_user.nickname%>さんの物品譲渡申請中一覧</h2>
 
 <% @item_requests.each do |request| %>
   <div class="requests">
     <p>作成者：<%= request.item.user.nickname %></p>
     <p><%= request.item.item_name %></p>
-    <p>状態: <%= request.transfer %></p>
-    <%= link_to %>
+    <p>状態: <%= request.status_transfer_japanese %></p>
+    <%= link_to "この物品の情報はこちら",item_path(request.item)%>
   </div>
   
 <% end %>

@@ -1,7 +1,6 @@
 class ItemsRequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:new,:create]
-  # before_action :move_to_root, only: [:new,:create]
   before_action :sent_item_request,only:[:accept,:complete,:destroy]
   before_action :authorize_accept!,only:[:accept]
   before_action :authorize_complete!,only:[:complete]
@@ -15,7 +14,6 @@ class ItemsRequestsController < ApplicationController
   end
 
   def create
-    # request_judge(@item,current_user)
     if @item.reserved? or @item.completed?
       return redirect_back(fallback_location: root_path)
     end
@@ -38,19 +36,6 @@ class ItemsRequestsController < ApplicationController
     rescue ActiveRecord::RecordNotUnique
       redirect_to item_path(@item_request.item), alert: "他のユーザーが先に承認しました"
     end
-    # request_update_judge(@item,@item_request)
-    # if @item_request.completed?
-    #   return
-    # elsif @item_request.accepted? 
-    #   @item.update!(reservation: :completed)
-    # else
-    #   accepted!(@item,@item_request)
-    #   # ActiveRecord::Base.transaction do
-    #   #   @item_request.update!(sender_id: @item_request.sender.id,transfer: :accepted)
-    #   #   @item.item_requests.where.not(id: @item_request.id).update_all(transfer: :rejected)
-    #   #   @item.update!(reservation: :reserved)
-    #   # end
-    # end
   end
 
   def complete
