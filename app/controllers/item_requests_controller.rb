@@ -39,11 +39,10 @@ class ItemsRequestsController < ApplicationController
   end
 
   def complete
-    begin
-      @item_request.request_completed!(@item_request.sender), 
+    if @item_request.request_completed!(@item_request.sender)
       redirect_to item_path(@item_request.item), notice: "完了しました"
-    rescue ActiveRecord::RecordNotUnique
-      redirect_to item_path(@item_request.item), alert: "まだ完了していません"
+    else
+      redirect_to item_path(@item_request.item)
     end
   end
 

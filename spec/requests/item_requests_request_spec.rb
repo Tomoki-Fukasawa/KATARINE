@@ -5,55 +5,82 @@ RSpec.describe "ItemRequests", type: :request do
   before do
     @userA=FactoryBot.create(:user)
     @userB=FactoryBot.create(:user)
+    @userC=FactoryBot.create(:user)
     friendship = FactoryBot.create(:friendship, user: @userA, friend: @userB)
     @item=FactoryBot.create(:item, user:@userA)
-    # @item_request=FactoryBot.create(:item_request,sender: @userA, item: @item)
   end
   describe "POST items/:item_id/item_requests(.:format)" do
-    context "出品者以外がログインしている場合" do
-      it "物品譲渡希望申請成功"
+    context "出品者以外(@userB)がログインしている場合" do
+      it "物品譲渡希望申請成功" do
         sign_in @userB
         expect {
-          post item_requests_path(@item), params: {item: @item,sender: @userA.id}
+          post item_item_requests_path(@item)
         }.to change(ItemRequest, :count).by(1)
         expect(response).to redirect_to(item_path(@item))
       end
     end
-    context "出品者がログインしている場合" do
+    context "出品者(userA)がログインしている場合" do
       it "物品譲渡希望申請失敗" do
         sign_in @userA
-        post item_requests_path(@item), params: { friend_id: @userB.id }
+        post item_item_requests_path(@item)
         expect(response).to redirect_to(root_path)
       end
     end
   end
   describe "PATCH items/:item_id/item_requests/:id/accept(.:format)" do
-    context "出品者が操作して、request_accept!更新成功" do
-      sign_in @userB
-      item_request=FactoryBot.create(:item_request,sender: @userA, item: @item, transfer: :waiting)
-      expect {
-        patch accept_item_item_request_path(@item,item_request), params: {item: @item,sender: @userB}
-      }.to change(item_request, :transfer).to be_accepted
-      expect(response).to redirect_to(item_path(@item))
-    end
-    context "出品者以外が操作して、request_accept!更新失敗" do
+    context "出品者(@userA)が操作して、request_accept!更新成功" do
       sign_in @userA
-      patch accept_item_item_request_path(@item,item_request), params: {item: @item,sender: @userB}
-      expect(response).to redirect_to(root_path)
+      item_request=FactoryBot.create(:item_request,sender: @userB, item: @item, transfer: :waiting)
+      expect {
+        patch accept_item_item_request_path(@item,item_request)
+      }.to change{item_request.reload.transfer}.to "accepted"
+      expect(response).to redirect_to(item_path(@item_request.item))
+      expect(flash[:notice]).to eq "承認しました"
+    end
+    context "出品者以外(@userB)が操作して、request_accept!更新失敗" do
+      sign_in @userB
+      item_request=FactoryBot.create(:item_request,sender: @userB, item: @item, transfer: :waiting)
+      patch accept_item_item_request_path(@item,item_request)
+      expect(response).to redirect_to(item_path(item_request.item))
+      expect(flash[:alert]).to eq "権限がありません"
+    end
+    context "すでにacceptが存在する場合に、他の申請者をacceptできない" do
+      item_request=FactoryBot.create(:item_request,sender: @userB, item: @item, transfer: :accepted)
+      item_request2=FactoryBot.create(:item_request,sender: @userC, item: @item, transfer: :waiting)
+      sign_in @userA
+      expect{
+        patch accept_item_item_request_path(@item,item_request2)
+      }.not_to change{item_request2.reload.transfer}
+      expect(item_request2.reload).to be_waiting
+      expect(response).to redirect_to(item_path(item_request2.item))
+      expect(flash[:alert]).to eq "他のユーザーが先に承認しました"
     end
   end
   describe "PATCH items/:item_id/item_requests/:id/complete(.:format)" do
-    context "出品者以外が操作して、request_complete!更新成功" do
-      sign_in @userA
+    context "出品者以外(@userB)が操作して、request_complete!更新成功" do
+      sign_in @userB
       item_request=FactoryBot.create(:item_request,sender: @userB, item: @item, transfer: :accepted)
       expect {
-        patch complete_item_item_request_path(@item,item_request), params: {item: @item,sender: @userB}
-      }.to change(item_request, :transfer).to be_completed
+        patch complete_item_item_request_path(@item,item_request)
+      }.to change{item_request.reload.transfer}.to "completed"
+      expect(response).to redirect_to(item_path(item_request.item))
+      expect(flash[:notice]).to eq "完了しました"
     end
-    context "出品者が操作して、request_complete!更新失敗" do
+    context "出品者(@userA)が操作して、request_complete!更新失敗" do
+      sign_in @userA
+      item_request=FactoryBot.create(:item_request,sender: @userB, item: @item, transfer: :accepted)
+      patch complete_item_item_request_path(@item,item_request)
+      expect(response).to redirect_to(item_path(item_request.item))
+      expect(flash[:alert]).to eq "権限がありません"
+    end
+    context "transferがaccepted以外の状態で、request_complete!は状態を変更しない" do
       sign_in @userB
-      patch complete_item_item_request_path(@item,item_request), params: {item: @item,sender: @userB}
-      expect(response).to redirect_to(root_path)
+      item_request=FactoryBot.create(:item_request,sender: @userB, item: @item, transfer: :waiting)
+      expect{
+        patch complete_item_item_request_path(@item,item_request)
+      }.not_to change{item_request.reload.transfer}
+      expect(item_request.reload).to be_waiting
+      expect(response).to redirect_to(item_path(item_request.item))
     end
   end
 end
