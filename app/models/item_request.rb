@@ -7,7 +7,7 @@ class ItemRequest < ApplicationRecord
 
   validates :item_id,uniqueness: {scope: :sender_id}
   
-  def request_accepted!
+  def request_accepted!(actor)
     return unless user == item.user
     return unless waiting? && item.available?#とにかく、transferがwaitingではない状態であれば、返されることを予測
 
@@ -21,7 +21,7 @@ class ItemRequest < ApplicationRecord
       item.update!(reservation: :reserved)
     end
   end
-  def request_completed!
+  def request_completed!(actor)
     return unless accepted?
 
     transaction do

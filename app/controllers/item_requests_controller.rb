@@ -31,7 +31,7 @@ class ItemsRequestsController < ApplicationController
 
   def accept
     begin
-      @item_request.request_accepted!
+      @item_request.request_accepted!(@item.user)
       redirect_to item_path(@item_request.item), notice: "承認しました"
     rescue ActiveRecord::RecordNotUnique
       redirect_to item_path(@item_request.item), alert: "他のユーザーが先に承認しました"
@@ -39,7 +39,7 @@ class ItemsRequestsController < ApplicationController
   end
 
   def complete
-    @item_request.request_completed!
+    @item_request.request_completed!(@item_request.sender)
   end
 
   def destroy
