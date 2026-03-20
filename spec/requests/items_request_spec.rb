@@ -8,7 +8,7 @@ RSpec.describe "Items", type: :request do
     friendship = FactoryBot.create(:friendship, user: @userA, friend: @userB)
     @item=FactoryBot.create(:item)
   end
-  describe "GET/" do
+  describe "GET/" doe
   end
   
 

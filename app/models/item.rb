@@ -16,14 +16,14 @@ class Item < ApplicationRecord
   end
   validates :item_name, length: { maximum: 40, message: '40字以内で記述してください' }
   validates :item_script, length: { maximum: 1000, message: '1000字以内で記述してください' }
-  with_options numericality: { other_than: 1, message: "can't be blank" } do
+  with_options numericality: { other_than: 1 } do
     validates :category_id
     validates :item_state_id
     validates :prefecture_id
   end
   validate :image_presence
   def image_presence
-    errors.add(:image, 'を添付してください') unless image.attached?
+    errors.add(:image) unless image.attached?
   end
 
   def status_reservation_japanese
