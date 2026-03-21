@@ -61,6 +61,11 @@ class User < ApplicationRecord
     friendships.exists?(friend_id: user.id, state: :accepted) ||
       inverse_friendships.exists?(user_id: user.id, state: :accepted)
   end
+
+  def friends_reject?(user)
+    friendships.exists?(friend_id: user.id, state: :rejected) ||
+      inverse_friendships.exists?(user_id: user.id, state: :rejected)
+  end
   
   has_many :chat_rooms_as_user1,
     class_name: "ChatRoom",

@@ -47,8 +47,15 @@ class ItemsRequestsController < ApplicationController
   end
 
   def destroy
-    @item_request.destroy!
-    redirect_back(fallback_location: root_path)
+
+    if item_request.pending? && current_user==item_request.sender
+      @item_request.destroy!
+      redirect_to item_path(@item_request.item)
+    else
+      redirect_to item_path(@item_request.item)
+    end
+    
+    
   end
 
   private
