@@ -33,5 +33,9 @@ class Item < ApplicationRecord
     when "completed" then "完了"
     end
   end
+
+  def sold_out?
+    @item.item_requests.where(transfer: [:accepted, :completed]).exists?
+  end
   
 end

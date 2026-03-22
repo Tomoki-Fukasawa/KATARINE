@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:create, :destroy]
   end
   resources :items do
-    resources :item_requests, only:[:index,:create] do
+    resources :item_requests, only:[:index,:create,:destroy] do
       member do
         patch :accept
         patch :complete

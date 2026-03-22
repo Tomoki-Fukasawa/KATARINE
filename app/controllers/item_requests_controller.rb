@@ -47,16 +47,16 @@ class ItemsRequestsController < ApplicationController
   end
 
   def destroy
-
-    if item_request.pending? && current_user==item_request.sender
-      @item_request.destroy!
-      redirect_to item_path(@item_request.item)
+    if @item_request.accepted?
+      return redirect_to root_path unless current_user==@item_request.item.user
+      @item_request.request_accepted_cancel(current_user)
     else
-      redirect_to item_path(@item_request.item)
+      return redirect_to root_path unless current_user==@item_request.sender
+      @item_request.destroy!
     end
-    
-    
+    redirect_to item_path(@item_request.item)
   end
+
 
   private
 

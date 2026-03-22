@@ -29,6 +29,19 @@ class ItemRequest < ApplicationRecord
       item.update!(reservation: :completed)
     end
   end
+  def request_accepted_cancel(actor)
+    transaction do
+      #他のrejectedをwaitingに戻す
+      item.item_requests.where(transfer: :rejected).update_all(transfer: :waiting)
+      #acceptedをwaitingに戻す
+      item.item_requests.where(transfer: :accepted).update!(transfer: :waiting)
+      #itemを基に戻す
+      item.update!(reservation: :available)
+    end
+
+    end
+  end
+
   def status_transfer_japanese
     case transfer
     when "waiting" then "承認待ち"

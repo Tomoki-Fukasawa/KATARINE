@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_01_200000) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_14_002825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_01_200000) do
     t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "chat_rooms", force: :cascade do |t|
     t.bigint "user1_id", null: false
     t.bigint "user2_id", null: false
@@ -82,6 +87,36 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_01_200000) do
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
+  create_table "item_requests", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "sender_id", null: false
+    t.integer "transfer", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id", "sender_id"], name: "index_item_requests_on_item_id_and_sender_id", unique: true
+    t.index ["item_id"], name: "index_item_request_item_transfer_accepted", unique: true, where: "(transfer = 1)"
+    t.index ["item_id"], name: "index_item_requests_on_item_id"
+    t.index ["sender_id"], name: "index_item_requests_on_sender_id"
+  end
+
+  create_table "item_states", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "item_name", null: false
+    t.text "item_script", null: false
+    t.integer "category_id", null: false
+    t.integer "item_state_id", null: false
+    t.integer "prefecture_id", null: false
+    t.integer "reservation", default: 0, null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "chat_room_id", null: false
@@ -90,6 +125,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_01_200000) do
     t.datetime "updated_at", null: false
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "prefectures", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -122,6 +162,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_01_200000) do
   add_foreign_key "comments", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "item_requests", "items"
+  add_foreign_key "item_requests", "users", column: "sender_id"
+  add_foreign_key "items", "users"
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "messages", "users"
 end
