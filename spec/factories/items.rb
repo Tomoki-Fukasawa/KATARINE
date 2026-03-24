@@ -6,12 +6,13 @@ FactoryBot.define do
     item_state_id { 3 }
     prefecture_id { 3 }
     association :user
-    association :item_request
 
     after(:build) do |item|
-      item.image.attach(io: File.open('public/images/test_image.png'), 
-      filename: 'test_image.png', 
-      content_type: 'image/png')
+      item.image.attach(
+        io: File.open('public/images/test_image.png'), 
+        filename: 'test_image.png', 
+        content_type: 'image/png'
+      )
     end
   end
 end

@@ -8,11 +8,11 @@ class UsersController < ApplicationController
       inverse_pending_ids = current_user.inverse_friendships.pending.pluck(:user_id)
       exclude_ids = (accepted_ids + current_pending_ids +inverse_pending_ids).uniq
       @users = User.where(friend_want: true).where.not(id: current_user.id).where.not(id: exclude_ids)
-      @items=@user.items.includes(:user)
+      @items=current_user.items.includes(:user)
     else
       @users = User.where(friend_want: true)
+      @items = []
     end
-    
     @boards = Board.all
   end
   
@@ -21,8 +21,6 @@ class UsersController < ApplicationController
     if user_signed_in?
       @friendship = current_user.friendships.find_by(friend_id: @user.id) || current_user.inverse_friendships.find_by(user_id: @user.id) 
     end
-    @item_requests=@user.item_requests.includes(:item)
-    @items=@user.items.includes(:user)
   end
 
   def friends

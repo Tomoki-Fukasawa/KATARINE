@@ -8,8 +8,9 @@ class ItemRequest < ApplicationRecord
   validates :item_id,uniqueness: {scope: :sender_id}
   
   def request_accepted!(actor)
-    return unless user == item.user
-    return unless waiting? && item.available?#とにかく、transferがwaitingではない状態であれば、返されることを予測
+    return :not_user unless actor == self.item.user
+    return :not_waiting unless self.waiting?  #とにかく、transferがwaitingではない状態であれば、返されることを予測
+    return :already_accepted if item.item_requests.where.not(id: id).exists?(transfer: :accepted)
 
     ActiveRecord::Base.transaction do
       update!(transfer: :accepted)
@@ -17,19 +18,29 @@ class ItemRequest < ApplicationRecord
       item.item_requests.where.not(id: id).each do |request|
         request.update!(transfer: :rejected)
       end
+      # item.item_requests.where.not(id: id).update_all(transfer: :rejected)
+      # item.item_requests.where.not(id: id).update_all(
+      #   transfer: ItemRequest.transfers[:rejected]
+      # )
 
       item.update!(reservation: :reserved)
+      :success
     end
   end
+
   def request_completed!(actor)
-    return unless accepted?
+    return :not_sender unless actor == self.sender 
+    return :not_accepted unless self.accepted?
 
     transaction do
       update!(transfer: :completed)
       item.update!(reservation: :completed)
+      :success
     end
   end
   def request_accepted_cancel(actor)
+    return unless actor == self.item.user && self.item.reserved?
+
     transaction do
       #他のrejectedをwaitingに戻す
       item.item_requests.where(transfer: :rejected).update_all(transfer: :waiting)
@@ -37,8 +48,6 @@ class ItemRequest < ApplicationRecord
       item.item_requests.where(transfer: :accepted).update!(transfer: :waiting)
       #itemを基に戻す
       item.update!(reservation: :available)
-    end
-
     end
   end
 

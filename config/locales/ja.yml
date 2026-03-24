@@ -48,10 +48,12 @@ ja:
       item:
         item_name: 物品名
         item_script: 説明文
-        category: カテゴリー
-        item_state: 商品状態
-        prefecture: 発送元地域
+        category_id: カテゴリー
+        item_state_id: 商品状態
+        prefecture_id: 発送元地域
         reservation: 予約状態
+        image: 画像
+        user: ユーザー
       
       item_request:
         item: 物品

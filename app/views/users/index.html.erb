@@ -8,6 +8,8 @@
   </div>
 
   <div class="right">
-    <%= render "items/item_list", items: @items %>
+    <% if user_signed_in?%>
+      <%= render "items/item_list", items: @items %>
+    <% end %>
   </div>
 </div>

@@ -1,5 +1,4 @@
 class ChatRoomsController < ApplicationController
-
   def index
     # @chat_room=ChatRoom.new
     @chat_rooms=ChatRoom.where(user1_id: current_user.id).or(ChatRoom.where(user2_id: current_user.id))
@@ -23,12 +22,5 @@ class ChatRoomsController < ApplicationController
       redirect_to chat_rooms_path
     end
   end
-
-  # private
-
-  # def chat_room_params
-  #   params.require(:chat_room).permit(:user1_id, :user2_id)
-  # end
-
   
 end

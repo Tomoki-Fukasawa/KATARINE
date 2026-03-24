@@ -11,13 +11,17 @@ RSpec.describe Friendship, type: :model do
   end
 
   it "初期状態が pending である" do
+    user = FactoryBot.create(:user)
+    friend = FactoryBot.create(:user)
     friendship = FactoryBot.create(:friendship)
     expect(friendship.pending?).to be true
   end
   
   it "accepted に変更できる" do
-    friendship = FactoryBot.create(:friendship)
-    friendship.accepted!
+    user = FactoryBot.create(:user)
+    friend = FactoryBot.create(:user)
+    friendship = FactoryBot.create(:friendship, user: user, friend: friend, state: :pending)
+    friendship.update(state: :accepted)
     expect(friendship.accepted?).to be true
   end
 end

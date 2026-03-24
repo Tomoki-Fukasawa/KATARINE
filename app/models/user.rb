@@ -76,13 +76,13 @@ class User < ApplicationRecord
     foreign_key: :user2_id
 
   has_many :items
-  has_many :item_requests
+  has_many :item_requests, foreign_key: :sender_id
 
   has_many :sent_requests,
           class_name: "ItemRequest",
           foreign_key: :sender_id
 
-  has_many :received_requests,
-           class_name: "ItemRequest",
-           foreign_key: :receiver_id
+  # has_many :received_requests,
+  #          class_name: "ItemRequest",
+  #          foreign_key: :receiver_id
 end
