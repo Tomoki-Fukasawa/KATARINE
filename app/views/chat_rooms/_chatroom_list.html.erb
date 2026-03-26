@@ -3,7 +3,7 @@
     <div class="say_come">何話す？</div>
   </div>
   <div class="member_lists">
-    <% @chat_rooms.each do |chatroom|%>
+    <% chat_rooms.each do |chatroom|%>
       <div class="room">
         <div class="room_name">
           <%= chatroom.partner(current_user).nickname %>
