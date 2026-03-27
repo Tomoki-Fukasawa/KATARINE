@@ -1,7 +1,9 @@
+<%= render "shared/header" %>
 <h2>物品譲渡申請中一覧</h2>
 <p>出品した物品一覧</p>
 <% @items.each do |item| %>
   <div class="items">
+    <%= image_tag @item.image.variant(resize: '200x200') ,class:"item-box-img" %>
     <p>作成者：<%= item.user.nickname %></p>
     <p><%= item.item_name %></p>
     <p>状態: <%= item.status_reservation_japanese %></p>
@@ -12,6 +14,7 @@
 <p>申請中の物品一覧</p>
 <% @item_requests.each do |request| %>
   <div class="requests">
+    <%= image_tag request.item.image.variant(resize: '200x200') ,class:"item-box-img" %>
     <p>作成者：<%= request.item.user.nickname %></p>
     <p><%= request.item.item_name %></p>
     <p>状態: <%= request.status_transfer_japanese %></p>

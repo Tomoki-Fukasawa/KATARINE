@@ -35,7 +35,11 @@ class Item < ApplicationRecord
   end
 
   def sold_out?
-    @item.item_requests.where(transfer: [:accepted, :completed]).exists?
+    self.item_requests.where(transfer: :completed).exists?
   end
+
+  # def request_sent?(actor)
+  #   self.item_requests.where(sender: actor).exists?
+  # end
   
 end

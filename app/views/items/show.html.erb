@@ -19,8 +19,6 @@
         <%= link_to "物品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
         <%= link_to "削除", item_path(@item), data: {turbo_method: :delete}, class:"item-destroy" %>
-      <% else%>
-        <%= link_to "受け取り申請画面に進む", item_item_requests_path(@item) ,data:{turbo: false},class:"item-red-btn"%>
       <% end %>
     <% end%>
 
@@ -51,57 +49,59 @@
   <div class="lists">
     <ul class='item_requests-lists'>
       <% if current_user == @item.user%>
-        <% @item_requests.each do |request|%>
-          <li>
-            <div class='sender-img-content'>
-                <%= image_tag request.sender.image.variant(resize: '100x100'), class: "item-img" if request.sender.image.attached? %>
-                <%= request.sender.nickname%>
-            </div>
-            <% if request.waiting?%>
-              <h5>この人に物品を渡しますか？</h5>
-              <%= link_to "渡したい場合はこちらをクリック", accept_item_item_request(request,item)%>
-            <% elsif request.accepted?%>
-              <h4>この人に物品を渡すことが確定しました。チャットで受け渡す日にちや場所を決めてください。</h4>
-              <%=link_to "受け渡しを中断するならこちらをクリック", item_item_request(request,@item),data: {turbo_method: :delete, turbo_confirm: "本当に中断しますか？"}%>
-            <% elsif request.completed?%>
-              <p>譲渡完了</p>
-            <% elsif request.rejected?%>
-              <p>却下済み</p>
-            <% end %>
-          </li>
-        <% end %>
-        <% if @item_requests.count==0 %>
-              <div class='item-info'>
-                <h6 class='item-name'>
-                  まだ相手は見つかっていません
-                </h6>
+        <% if @item.item_requests.any? %>
+          
+          <% @item_requests.each do |request|%>
+            <li>
+              <div class='sender-img-content'>
+                  <%= image_tag request.sender.image.variant(resize: '100x100'), class: "item-img" if request.sender.image.attached? %>
+                  <%= request.sender.nickname%>
               </div>
-          <%end%>
+              <% if request.waiting?%>
+                <h5>この人に物品を渡しますか？</h5>
+                <%= link_to "渡したい場合はこちらをクリック", accept_item_item_request_path(@item,request),data: { turbo_method: :patch , turbo_confirm: "本当にこの人に渡しますか？"}%>
+              <% elsif request.accepted?%>
+                <h4>この人に物品を渡すことが確定しました。チャットで受け渡す日にちや場所を決めてください。</h4>
+                <%= link_to "受け渡しを中断するならこちらをクリック", item_item_request_path(@item,request),data: {turbo_method: :delete, turbo_confirm: "本当に中断しますか？"}%>
+              <% elsif request.completed?%>
+                <p>譲渡完了</p>
+              <% elsif request.rejected?%>
+                <p>却下済み</p>
+              <% end %>
+            </li>
+          <% end %>
+        <% else %>
+          <p>見えますか？</p>
+          <div class='item-info'>
+            <h6 class='item-name'>
+              まだ相手は見つかっていません
+            </h6>
+          </div>
+        <%end%>
       <% else %>
-        <% request = @item_requests.find_by(sender: current_user)%>
-          <% if request.present?%>
-
-            <%if request.completed? %>
-              <div class='sold-out'>
-                <p>譲渡完了!!</p>
-              </div>
-            <%elsif request.accepted?%>
-              <div class='sold-out'>
-                <p>受け取りましたか？</p>
-                <%=link_to "受け取ったら、こちらをクリック",complete_item_item_request(request,@item)%>
-                <%# <%=link_to "中断するならこちらをクリック", item_item_request(request,@item),data: {turbo_method: :delete, turbo_confirm: "本当に中断しますか？"}%>                 %>
-              </div>
-            <% elsif request.waiting?%>
-              <div class='sold-out'>
-                <p>返答を待っています</p>
-                <%=link_to "受け渡し申請をキャンセルするならこちらをクリック", item_item_request(request,@item),data: {turbo_method: :delete, turbo_confirm: "本当にキャンセルしますか？"}%>
-              </div>
-            <% elsif request.rejected?%>
-              <p>今回は見送られました</p>
-            <%end%>
-          <%else%>
-            <%= link_to "受け取り申請画面に進む", item_item_requests_path(@item) ,data:{turbo: false},class:"item-red-btn"%>
+        <% request = @item.item_requests.find_by(sender: current_user)%>
+        <% if request.present?%>
+          <%if request.completed? %>
+            <div class='sold-out'>
+              <p>譲渡完了!!</p>
+            </div>
+          <%elsif request.accepted?%>
+            <div class='sold-out'>
+              <p>受け取りましたか？</p>
+              <%= link_to "受け取ったら、こちらをクリック",complete_item_item_request_path(@item,request),data: { turbo_method: :patch , turbo_confirm:"本当に受けとったかを必ず確認してください。"}%>
+              <%# <%=link_to "中断するならこちらをクリック", item_item_request(request,@item),data: {turbo_method: :delete, turbo_confirm: "本当に中断しますか？"}%>                 %>
+            </div>
+          <% elsif request.waiting?%>
+            <div class='sold-out'>
+              <p>返答を待っています</p>
+              <%=link_to "受け渡し申請をキャンセルするならこちらをクリック", item_item_request_path(@item,request),data: {turbo_method: :delete, turbo_confirm: "本当にキャンセルしますか？"}%>
+            </div>
+          <% elsif request.rejected?%>
+            <p>今回は見送られました</p>
           <%end%>
+        <%else%>
+          <%= link_to "受け取り申請画面に進む", new_item_item_request_path(@item) ,data:{turbo: false},class:"item-red-btn"%>
+        <%end%>
       <% end %>
       
     </ul>
@@ -109,4 +109,4 @@
 
 </div>
 
-<%= render "shared/footer" %>
+<%# <%= render "shared/footer" %> %>

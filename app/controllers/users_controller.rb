@@ -14,12 +14,18 @@ class UsersController < ApplicationController
       @items = []
     end
     @boards = Board.all
+    @items = Item.where(reservation: :available).order('created_at DESC')
   end
   
   def show
     @user=User.find(params[:id])
     if user_signed_in?
       @friendship = current_user.friendships.find_by(friend_id: @user.id) || current_user.inverse_friendships.find_by(user_id: @user.id) 
+      @chat_rooms=ChatRoom.where(user1_id: current_user.id).or(ChatRoom.where(user2_id: current_user.id))
+      @chat_room_with_user= ChatRoom.find_by(
+        user1: [current_user.id, @user.id].min,
+        user2: [current_user.id, @user.id].max
+      )
     end
   end
 

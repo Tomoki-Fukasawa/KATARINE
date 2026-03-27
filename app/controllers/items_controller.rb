@@ -26,6 +26,9 @@ class ItemsController < ApplicationController
   end
 
   def show
+    # @item_requests = ItemRequest.where(item: @item).where.not(transfer: ItemRequest.transfers[:completed]).order('created_at DESC')
+    # @item_requests = ItemRequest.where(item: @item).order('created_at DESC')
+    @item_requests = @item.item_requests.includes(:sender).order('created_at DESC')
   end
 
   def edit

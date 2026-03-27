@@ -1,9 +1,9 @@
 class ChatRoomsController < ApplicationController
-  def index
-    # @chat_room=ChatRoom.new
-    @chat_rooms=ChatRoom.where(user1_id: current_user.id).or(ChatRoom.where(user2_id: current_user.id))
-    # @partner = @chat_room.partner(current_user)
-  end
+  # def index
+  #   # @chat_room=ChatRoom.new
+  #     @chat_rooms=ChatRoom.where(user1_id: current_user.id).or(ChatRoom.where(user2_id: current_user.id))    
+  #   # @partner = @chat_room.partner(current_user)
+  # end
 
   def show
     @chat_room = ChatRoom.where(user1_id: current_user.id)

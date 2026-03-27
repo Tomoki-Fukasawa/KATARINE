@@ -1,0 +1,13 @@
+/*user_show*/
+.user_show_contents{
+  display: flex;
+}
+.user_show_left{
+  width: 50vw;
+  background-color: aliceblue;
+}
+
+.user_show_right{
+  width: 50vw;
+  background-color: blanchedalmond;
+}

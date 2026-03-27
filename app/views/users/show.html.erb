@@ -1,4 +1,5 @@
-<div class="contents row">
+<%= render "shared/header" %>
+<div class="user_show_contents">
   <div class="user_show_left">
     <div class="user_image">
       <%= image_tag @user.image.variant(resize: '1000x100'),class:"item-box-img" %>
@@ -30,7 +31,6 @@
       <%# # 友達登録済み %>
         <%# <%= link_to "友達関係を解消しますか？", friendship_path(@friendship),method: :delete %> %>
         <%= button_to "友達関係を解消しますか？", reject_friendship_path(@friendship), method: :patch  %>
-        <%= button_to "チャットするならこちら"%>
       <% elsif current_user.pending_sent_to?(@user)%>
         <%# # 自分が友達登録申請中 %>
         <p>申請中です。お待ちください</p>

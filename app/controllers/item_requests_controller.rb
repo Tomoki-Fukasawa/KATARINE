@@ -11,6 +11,7 @@ class ItemRequestsController < ApplicationController
 
   def new
     @item_request = ItemRequest.new
+    # redirect_to item_path(@item)
   end
 
   def create
@@ -28,7 +29,7 @@ class ItemRequestsController < ApplicationController
     if @item_request.save
       redirect_to item_path(@item)
     else
-      render_to :new
+      render :new
     end
   end
 

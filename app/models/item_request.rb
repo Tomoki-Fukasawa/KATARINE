@@ -5,7 +5,7 @@ class ItemRequest < ApplicationRecord
   belongs_to :item
   belongs_to :sender, class_name: "User"
 
-  validates :item_id,uniqueness: {scope: :sender_id}
+  validates :item_id,uniqueness: {scope: :sender_id, message: "あなたは、この物品には既に申請しています"}
   
   def request_accepted!(actor)
     return :not_user unless actor == self.item.user

@@ -82,7 +82,4 @@ class User < ApplicationRecord
           class_name: "ItemRequest",
           foreign_key: :sender_id
 
-  # has_many :received_requests,
-  #          class_name: "ItemRequest",
-  #          foreign_key: :receiver_id
 end

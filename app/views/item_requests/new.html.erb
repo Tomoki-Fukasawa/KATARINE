@@ -1,13 +1,12 @@
-<%= render "shared/second-header"%>
+<%# <%= render "shared/second-header"%> %>
+<%= render "shared/header" %>
 <h2>受け取り申請確認</h2>
+  <h3>物品名：<%=@item.item_name %></h3>
+  <h4>提供者:<%=@item.user.nickname%></h4>
 
 <div class='transaction-contents'>
-  <%= form_with model:@item,@item_request, url: item_requests_path, id: 'charge-form', class: 'transaction-form-wrap',local: true do |f| %>
-  <%= render 'shared/error_messages', model: f.object %>
-    <h3>物品名：<%=@item.item_name %></h3>
-    <h4>提供者:<%=@item.user.nickname%></h4>
-
+  <%= form_with model: [@item,@item_request], id: 'charge-form', class: 'transaction-form-wrap',local: true do |f| %>
+    <%= render 'shared/error_messages', model: f.object %>
     <%= f.submit "上記の内容で受け取りを希望します",class:"buy-red-btn", id:"button"%>
   <% end %>
 </div>
-<%= render "shared/second-footer"%>

@@ -11,24 +11,6 @@
   </head>
 
   <body>
-    <header class="header">
-      <div class="header_bar">
-        <div class="app_logo"><a href="/">KATARINE</a></div>
-        <% if user_signed_in?%>
-          <div class="right_area">
-            <%= link_to "ログアウト" ,destroy_user_session_path, data: { turbo_method: :delete }, class: "logout" %>
-            <%= link_to current_user.nickname, "/users/#{current_user.id}" %>
-          </div>
-        <% else %>
-          <div class="right_area">
-            <%= link_to "ログイン",new_user_session_path %>
-            <%= link_to "新規登録",new_user_registration_path %>
-          </div>
-        <% end %>
-      </div>
-    </header>
-    <div class="container">
-      <%= yield %>
-    </div>
+    <%= yield %>
   </body>
 </html>

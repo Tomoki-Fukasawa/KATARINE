@@ -1,3 +1,4 @@
+<%= render "shared/header" %>
 <div class="main_header">
   <div class="left-header">
     <div class="chat_title">
@@ -6,7 +7,7 @@
   </div>
   <div class="right_header">
     <div class="chat_end">
-      <%= link_to "リストに戻る", chat_rooms_path%>
+      <%= link_to "リストに戻る", user_path(current_user)%>
     </div>
   </div>
 </div>
@@ -17,8 +18,6 @@
   </div>
 
   <div class="message">
-
-    
     <% @messages.each do |message|%>
       <% if message.user==current_user %>
         <div class="upper-message">
@@ -36,7 +35,7 @@
             <!-- 投稿したメッセージ内容を記述する -->
             <%= message.content %>
           </div>
-          <%= image_tag message.image.variant(resize: '500x500'), class: 'message-image' if message.image.attached? %>
+          <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
         </div>
       <% else %>
         <div class="downer-message">
@@ -54,7 +53,7 @@
             <!-- 投稿したメッセージ内容を記述する -->
             <%= message.content %>
           </div>
-          <%= image_tag message.image.variant(resize: '500x500'), class: 'message-image' if message.image.attached? %>
+          <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
         </div>
       <% end %>
 
