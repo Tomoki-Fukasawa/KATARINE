@@ -3,7 +3,7 @@
 <p>出品した物品一覧</p>
 <% @items.each do |item| %>
   <div class="items">
-    <%= image_tag @item.image.variant(resize: '200x200') ,class:"item-box-img" %>
+    <%= image_tag item.image.variant(resize: '200x200') ,class:"item-box-img" %>
     <p>作成者：<%= item.user.nickname %></p>
     <p><%= item.item_name %></p>
     <p>状態: <%= item.status_reservation_japanese %></p>

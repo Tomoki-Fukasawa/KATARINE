@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :edit]
   before_action :set_item, only: [:destroy, :show, :edit, :update]
-  before_action :move_to_index, only: [:edit, :destroy]
+  before_action :move_to_index, only: [:edit]
 
   def index
     @items = Item.where(reservation: :available).order('created_at DESC')
@@ -21,6 +21,10 @@ class ItemsController < ApplicationController
   end
 
   def destroy
+    if @item.item_requests.exists?
+      redirect_to @item, alert: "申請があるため、削除できません"
+      return
+    end
     @item.destroy
     redirect_to root_path
   end
@@ -57,9 +61,9 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    return if (current_user.id == @item.user_id) && @item.item_requests.empty?
-
-    redirect_to action: :index
+    unless current_user.id == @item.user_id && @item.item_requests.empty?
+      redirect_to @item, alert: "編集できません"
+    end
   end
 end
 
