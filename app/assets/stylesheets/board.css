@@ -1,0 +1,12 @@
+/*board_list*/
+.board_list{
+  border: 2px black;
+}
+.board_title{
+}
+.board_detail{
+  display: flex ;
+  
+}
+.board_link{
+}

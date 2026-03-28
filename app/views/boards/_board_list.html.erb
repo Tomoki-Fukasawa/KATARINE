@@ -6,20 +6,21 @@
     <% end %>
   </div>
   <% @boards.each do |board| %>
-    <div class="board-list">
+    <div class="board_list">
       <div class="board_title">
         <%= board.title %>
       </div>
-      <div class="board_content">
-        <%= board.description %>
+      <div class="board_detail">
+        <div class="board_date">
+          <%= board.created_at %>
+        </div>
+        <div class="board_user">
+          <%= board.user.nickname %>
+        </div>
       </div>
-      <div class="board_date">
-        <%= board.created_at %>
+      <div class="board_link">
+          <%= link_to 'この掲示板についてはこちら', board_path(board.id) %>
       </div>
-      <div class="board_user">
-        <%= board.user.nickname %>
-      </div>
-      <%= link_to 'この掲示板についてはこちら', board_path(board.id) %>
     </div>
   <% end %>
 </div>
