@@ -3,7 +3,9 @@ ja:
 
   time:
     formats:
-      default: "%Y/%m/%d %H:%M"
+      default: ! "%Y/%m/%d %H:%M"
+      short: ! '%m月%d日'
+      long: ! '%Y年%m月%d日'
 
 
   activerecord:

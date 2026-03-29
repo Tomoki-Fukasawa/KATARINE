@@ -1,12 +1,77 @@
 /*board_list*/
 .board_list{
-  border: 2px black;
+  border: 2px solid black;
+  background-color: bisque;
 }
 .board_title{
+  font-size: 24px;
+  font-weight: bold;
 }
 .board_detail{
   display: flex ;
-  
+  font-size: 16px;
+}
+.board_user{
+  padding-right: 20px;
+}
+.board_date{
 }
 .board_link{
+  font-size: 16px;
+  text-decoration: none;
 }
+/*board_new*/
+/*board_edit*/
+/*board_show*/
+.board_contents{
+  justify-content: center;
+
+  border: 2px solid black;
+  padding:0 20px;
+}
+.board_head{
+  display:flex;
+  justify-content: space-between;
+}
+.board_title_show{
+  font-size:40px;
+  font-weight: bold;
+}
+.board_date_show{
+  font-size: 24px;
+  font-weight: bold;
+}
+.board_description{
+  font-size: 32px;
+  font-weight: bold;
+}
+.container{
+  display: flex;
+}
+.comments{
+  width:50vw;
+}
+.comments_form{
+  width:50vh;
+}
+li{
+  list-style-type: none;
+}
+a:link{
+  color: black;
+  text-decoration: none;
+}
+.more_list{
+  display: flex;
+  justify-content: center;
+}
+.or{
+  font-size: 24px;
+  padding: auto;
+}
+.board_ed_btn{
+  font-size:24px;
+  text-align: center;
+  border: 2px solid black;
+}
+

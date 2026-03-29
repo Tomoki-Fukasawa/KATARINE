@@ -1,23 +1,28 @@
 <%= render "shared/header" %>
-<div>掲示板</div>
-<div class="board_head">
-  <div class="board_date">
-    <%= @board.created_at %>
+
+<div class="board_contents">
+  <div class="board_head">
+    <div class="board_title_show">
+      <%= @board.title %>
+    </div>
+    <div class="board_date_show">
+      <%= l @board.created_at, format: :long %>
+    </div>
   </div>
-  <div class="board_title">
-    <%= @board.title %>
-  </div>
-  <div class="board_content">
+  <div class="board_description">
     <%= @board.description %>
   </div>
-  <div class="more">
+  <div class="board_edit_or_delete">
     <ul class="more_list">
       <% if user_signed_in? && current_user.id == @board.user_id %>
         <li>
-          <%= link_to '編集', edit_board_path(@board.id) %>
+          <%= link_to '編集', edit_board_path(@board.id), method: :get, class: "board_ed_btn" %>
         </li>
+        <div class="or">
+          or
+        </div>
         <li>
-          <%= button_to '削除', board_path(@board), method: :delete %>
+          <%= link_to '削除', board_path(@board), method: :delete , class: "board_ed_btn" %>
         </li>
       <% end %>
     </ul>
@@ -25,16 +30,6 @@
 </div>
 
 <div class="container">
-  <% if user_signed_in? %>
-    <%= form_with(model: [@board,@comment], local:true) do |form|%>
-      <%= form.label :content, 'コメント'%>
-      <%=form.text_area :content, placeholder: "何話す？", rows:"2"%>
-      <%=form.submit "SEND" %>
-    <%end%>
-  <% end %>
-  <% unless user_signed_in? %>
-    <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
-  <% end %>
   <div class="comments">
     <h4><comment-list></h4>
     <% @comments.each do |comment|%>
@@ -43,5 +38,16 @@
         <%= comment.content %>
       </p>
     <% end%>
+  </div>
+  <div class="comments_form">
+    <% if user_signed_in? %>
+      <%= form_with(model: [@board,@comment], local:true) do |form|%>
+        <%= form.label :content, 'コメント'%>
+        <%=form.text_area :content, placeholder: "何話す？", rows:"10"%>
+        <%=form.submit "SEND" %>
+      <%end%>
+    <% else %>
+      <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+    <% end %>
   </div>
 </div>

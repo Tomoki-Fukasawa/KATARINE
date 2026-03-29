@@ -1,16 +1,18 @@
 <h4>物品譲渡募集一覧</h4>
-  <div class="item_request_lists">
-    <% items.each do |item|%>
-      <div class="item">
-        <div class="item_image">
-          <%= image_tag item.image.variant(resize: '100x100') ,class:"item-box-img" if item.image.attached?%>
-        </div>
-        <div class="item_name">
-          <%= item.item_name %>
-        </div>
-        <div class="item_show_link">
-          <%= link_to "この物品の詳しい情報はこちら", item_path(item)%>
-        </div>
+<div class="say_come">渡しちゃお！！</div>
+
+<div class="item_request_lists">
+  <% items.each do |item|%>
+    <div class="item">
+      <div class="item_image">
+        <%= image_tag item.image.variant(resize: '100x100') ,class:"item-box-img" if item.image.attached?%>
       </div>
-    <%end%>
-  </div>
+      <div class="item_name">
+        <%= item.item_name %>
+      </div>
+      <div class="item_show_link">
+        <%= link_to "この物品の詳しい情報はこちら", item_path(item)%>
+      </div>
+    </div>
+  <%end%>
+</div>

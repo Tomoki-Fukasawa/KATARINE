@@ -1,4 +1,4 @@
-<div class="board_list">
+<div class="board_lists">
   <div class="make_boards">
     <div class="say_come">話しちゃお!</div>
     <% if user_signed_in? %>
@@ -11,11 +11,11 @@
         <%= board.title %>
       </div>
       <div class="board_detail">
-        <div class="board_date">
-          <%= board.created_at %>
-        </div>
         <div class="board_user">
           <%= board.user.nickname %>
+        </div>
+        <div class="board_date">
+          <%= l board.created_at, format: :long %>
         </div>
       </div>
       <div class="board_link">
