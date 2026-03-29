@@ -1,0 +1,6 @@
+.item{
+  border: 2px solid black;
+}
+.item_detail{
+  display: flex;
+}
