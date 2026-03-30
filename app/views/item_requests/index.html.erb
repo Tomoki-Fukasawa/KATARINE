@@ -6,7 +6,7 @@
     <p>作成者：<%= request.item.user.nickname %></p>
     <p><%= request.item.item_name %></p>
     <p>状態: <%= request.status_transfer_japanese %></p>
-    <%= link_to "この物品の情報はこちら",item_path(request.item)%>
+    <%= link_to "この物品の情報はこちら",item_path(request.item), class: "link_button"%>
   </div>
   
 <% end %>

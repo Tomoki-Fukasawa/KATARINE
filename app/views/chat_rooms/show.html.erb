@@ -7,7 +7,7 @@
   </div>
   <div class="right_header">
     <div class="chat_end">
-      <%= link_to "リストに戻る", user_path(current_user)%>
+      <%= link_to "リストに戻る", user_path(current_user), class: "link_button"%>
     </div>
   </div>
 </div>
@@ -20,43 +20,46 @@
   <div class="message">
     <% @messages.each do |message|%>
       <% if message.user==current_user %>
-        <div class="upper-message">
-          <div class="message-user">
-            <!-- 投稿したユーザー名情報を出力する -->
-            <%= current_user.nickname %>
+        <div class="my_message">
+          <div class="upper-message">
+            <div class="message-user">
+              <!-- 投稿したユーザー名情報を出力する -->
+              <%= current_user.nickname %>
+            </div>
+            <div class="message-date">
+              <!-- 投稿した時刻を出力する -->
+              <%= l message.created_at,format: :short %> 
+            </div>
           </div>
-          <div class="message-date">
-            <!-- 投稿した時刻を出力する -->
-            <%= l message.created_at %> 
+          <div class="lower-message">
+            <div class="message-content">
+              <!-- 投稿したメッセージ内容を記述する -->
+              <%= message.content %>
+            </div>
+            <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
           </div>
-        </div>
-        <div class="lower-message">
-          <div class="message-content">
-            <!-- 投稿したメッセージ内容を記述する -->
-            <%= message.content %>
-          </div>
-          <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
         </div>
       <% else %>
-        <div class="downer-message">
-          <div class="message-user">
-            <!-- 投稿したユーザー名情報を出力する -->
-            <%= message.chat_room.partner(current_user).nickname %>
+        <div class="other_message">
+          <div class="downer-message">
+            <div class="message-user">
+              <!-- 投稿したユーザー名情報を出力する -->
+              <%= message.chat_room.partner(current_user).nickname %>
+            </div>
+            <div class="message-date">
+              <!-- 投稿した時刻を出力する -->
+              <%= l message.created_at, format: :short %> 
+            </div>
           </div>
-          <div class="message-date">
-            <!-- 投稿した時刻を出力する -->
-            <%= l message.created_at %> 
+          <div class="lower-message">
+            <div class="message-content">
+              <!-- 投稿したメッセージ内容を記述する -->
+              <%= message.content %>
+            </div>
+            <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
           </div>
-        </div>
-        <div class="lower-message">
-          <div class="message-content">
-            <!-- 投稿したメッセージ内容を記述する -->
-            <%= message.content %>
-          </div>
-          <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
         </div>
       <% end %>
-
     <% end %>
   </div>
 

@@ -3,7 +3,7 @@
 <% @friends.each do |friend| %>
   <div id="friend_permitted_users">
     <p>仲良くしましょう</p>
-    <%= link_to friend.nickname, user_path(friend) %>
+    <%= link_to friend.nickname, user_path(friend), class: "link_button" %>
   </div>
 <% end %>
 
@@ -20,8 +20,8 @@
   <div id="pending_sent">
     <% @pending_received.each do |give_user| %>
         <%= give_user.user.nickname%>
-        <%= button_to "この人と友達になりますか？", friendship_path(give_user), method: :put  %>
-        <%= button_to "この人を拒否しますか？", reject_friendship_path( give_user), method: :patch  %>
+        <%= link_to "この人と友達になりますか？", friendship_path(give_user), data: {turbo_method: :put} , class: "link_button" %>
+        <%= link_to "この人を拒否しますか？", reject_friendship_path(give_user), data: {turbo_method: :patch} , class: "link_button" %>
     <% end %>
   </div>
   <h4><%= current_user.nickname %>の友達拒否一覧</h4>

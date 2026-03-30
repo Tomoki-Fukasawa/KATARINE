@@ -7,7 +7,7 @@
     <p>作成者：<%= item.user.nickname %></p>
     <p><%= item.item_name %></p>
     <p>状態: <%= item.status_reservation_japanese %></p>
-    <%= link_to "この物品の情報はこちら",item_path(item)%>
+    <%= link_to "この物品の情報はこちら",item_path(item), class: "link_button"%>
   </div>
 <% end %>
 
@@ -18,8 +18,8 @@
     <p>作成者：<%= request.item.user.nickname %></p>
     <p><%= request.item.item_name %></p>
     <p>状態: <%= request.status_transfer_japanese %></p>
-    <%= link_to "この物品の情報はこちら",item_path(request.item)%>
+    <%= link_to "この物品の情報はこちら",item_path(request.item), class: "link_button"%>
   </div>
 <% end %>
 <p>物品新規出品</p>
-<%= link_to "物品出品はこちらから", new_item_path%>
+<%= link_to "物品出品はこちらから", new_item_path, class: "link_button"%>

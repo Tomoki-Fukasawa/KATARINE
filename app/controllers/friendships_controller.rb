@@ -43,7 +43,11 @@ class FriendshipsController < ApplicationController
   def destroy
     # friendship = current_user.inverse_friendships.find(params[:id])
     friendship = current_user.friendships.find(params[:id])
+    user1_id, user2_id = [friendship.user_id, friendship.friend_id].sort
+
     ActiveRecord::Base.transaction do
+      ChatRoom.find_by(user1_id: user1_id, user2_id: user2_id)&.destroy
+
       inverse = Friendship.find_by(
         user_id: friendship.friend_id,
         friend_id: friendship.user_id

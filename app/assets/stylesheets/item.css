@@ -1,5 +1,6 @@
 .item{
   border: 2px solid black;
+  background-color: blanchedalmond;
 }
 .item_detail{
   display: flex;

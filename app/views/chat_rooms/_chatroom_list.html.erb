@@ -6,26 +6,27 @@
     <% if user_signed_in? %>
       <% if current_user ==@user %>
         <% chat_rooms.each do |chatroom|%>
-          <div class="room">
-            <div class="room_name">
-              <%= chatroom.partner(current_user).nickname %>
-            </div>
-            <div class="user_image">
-              <%= image_tag chatroom.partner(current_user).image.variant(resize: '100x100') ,class:"item-box-img" if chatroom.partner(current_user).image.attached?%>
+          <div class="chat_room">
+            <div class="chatroom_head">
+              <div class="user_image">
+                <%= image_tag chatroom.partner(current_user).image.variant(resize: '100x100') ,class:"item-box-img" if chatroom.partner(current_user).image.attached?%>
+              </div>
+              <div class="room_name">
+                <%= chatroom.partner(current_user).nickname %>
+              </div>
             </div>
             <div class="room_show_link">
-              <%= link_to "この人と会話する", chat_room_path(chatroom)%>
+              <%= link_to "この人と会話する", chat_room_path(chatroom), class: "link_button"%>
             </div>
           </div>
         <% end %>
       <% else %>
         <% if @chat_room_with_user.present? %>
-          <%= link_to "この人と会話する", chat_room_path(@chat_room_with_user) if @chat_room_with_user.present? %>
+          <%= link_to "この人と会話する", chat_room_path(@chat_room_with_user), class: "link_button" if @chat_room_with_user.present?  %>
         <% else %>
          <p>まだチャットルームはありません</p>
         <% end %>
       <% end %>
     <% end %>
-    
   </div>
 </div>

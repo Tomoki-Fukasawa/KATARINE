@@ -1,0 +1,21 @@
+.chat_room{
+  border: 2px solid black;
+  background-color: blanchedalmond;
+  display: flex;
+}
+.message{
+  display: flex;
+}
+.my_message{
+  justify-content: right;
+}
+
+.other_message{
+  justify-content: left;
+}
+.link_button{
+  border: 2px solid black;
+  text-align: center;
+  padding: auto;
+  background-color: blanchedalmond;
+}
