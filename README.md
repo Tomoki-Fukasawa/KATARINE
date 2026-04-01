@@ -62,6 +62,13 @@
 -belongs_to: friend,class_name:'User'
 -has_many:messages
 
+## chat_room
+|Column |Type |Options|
+|-------|-----|-------|
+|user|references|null: false, foreign_key|
+|message|references|null: false, foreign_key|
+
+
 ## message
 |Column |Type |Options|
 |-------|-----|-------|
@@ -82,52 +89,21 @@
 |category_id|integer|null: false|
 |item_state_id|integer|null: false|
 |prefecture_id|integer|null: false|
-|deliver_day_id|integer|null: false|
 |user|references|null: false, foreign_key|
 
 
 ###Association
--has_one:give
--has_one:take
+-has_many:item_request
 -belongs_to:user
 
 -has_one_attached:item-image
 
-## gives table
+## item_requests table
 |Column |Type |Options|
 |-------|-----|-------|
 |sender_id|references|null: false, foreign_key|
-|receiver_id|references|null: false, foreign_key|
 |item_id|references| null: false, foreign_key|
 
 ##Association
 -belongs_to:sender,class_name:'User'
--belongs_to:receiver,class_name:'User'
 -belongs_to:item
-
-
-## takes table
-|Column |Type |Options|
-|-------|-----|-------|
-|receiver_id|references|null: false, foreign_key|
-|item_id|references| null: false, foreign_key|
-
-##Association
--belongs_to:receiver,class_name:'User'
--belongs_to:item
--has_one: address
-
-## addresses table
-|Column |Type |Options|
-|-------|-----|-------|
-|postcode|string|null:false|
-|local|string|null:false|
-|house_number|string|null:false|
-|building|string|
-|phone_number|integer|null:false|
-|buyer|references|null: false, foreign_key|
-|region_id|integer|null:false|
-
-##Association
--belongs_to :take
-
