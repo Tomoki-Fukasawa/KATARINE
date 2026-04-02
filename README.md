@@ -39,6 +39,7 @@
 -has_many:comments 
 
 
+
 ## comment
 |Column |Type |Options|
 |-------|-----|-------|
@@ -48,6 +49,8 @@
 ###Association
 -belongs_to: user
 -belongs_to: board
+
+-has_one_attached:item-image
 
 ## FRIEND_CHAT
 ## friend_ship
@@ -60,27 +63,30 @@
 ###Association
 -belongs_to: user
 -belongs_to: friend,class_name:'User'
--has_many:messages
 
 ## chat_room
 |Column |Type |Options|
 |-------|-----|-------|
-|user|references|null: false, foreign_key|
-|message|references|null: false, foreign_key|
+|user1|references|null: false, foreign_key|
+|user2|references|null: false, foreign_key|
 
+##Association
+-belongs_to: user1
+-belongs_to: user2
+-has_many: messages
 
 ## message
 |Column |Type |Options|
 |-------|-----|-------|
 |content|text|null: false|
 |user|references|null: false, foreign_key|
-|friend_ship|references|null: false, foreign_key|
+|chat_room|references|null: false, foreign_key|
+
 ###Association
 -belongs_to: user
 -belongs_to: friend,class_name:'User'
--belongs_to: friend_ship
 
-## ITEM_GIVE_TAKE
+## ITEM
 ## items table
 |Column |Type |Options|
 |-------|-----|-------|
@@ -89,12 +95,13 @@
 |category_id|integer|null: false|
 |item_state_id|integer|null: false|
 |prefecture_id|integer|null: false|
+|reservation|integer|null: false, default:0|
 |user|references|null: false, foreign_key|
 
 
 ###Association
--has_many:item_request
--belongs_to:user
+-has_many: item_requests
+-belongs_to: user
 
 -has_one_attached:item-image
 
@@ -103,7 +110,9 @@
 |-------|-----|-------|
 |sender_id|references|null: false, foreign_key|
 |item_id|references| null: false, foreign_key|
+|transfer|integer|null: false, default:0|
 
 ##Association
 -belongs_to:sender,class_name:'User'
 -belongs_to:item
+
