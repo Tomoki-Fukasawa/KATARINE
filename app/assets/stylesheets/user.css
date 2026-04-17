@@ -49,7 +49,7 @@
   /* overflow: hidden; */
 }
 .link_button_show{
-  width:16vw;
+  width:auto;
   border: 2px solid black;
   text-align: center;
   padding: auto;
