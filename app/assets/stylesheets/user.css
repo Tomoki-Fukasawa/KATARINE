@@ -24,7 +24,9 @@
   padding: 10px;
 }
 .say_come{
-  font-size: 40px;
+  font-size: 3vh;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /*user_show*/
@@ -34,9 +36,15 @@
 .user_show_left{
   width: 50vw;
   background-color: aliceblue;
+  overflow: hidden; 
 }
 
 .user_show_right{
   width: 50vw;
   background-color: blanchedalmond;
+}
+.friend_buttons{
+  display: block;
+  align-items: ;
+  /* overflow: hidden; */
 }

@@ -20,13 +20,15 @@
 
     <% if user_signed_in?%>
       <% if current_user == @user %>
-        <%= link_to(
-          current_user.friend_want? ? "友達募集を停止する" : "友達を募集する",
-          friend_want_user_path(current_user),
-          data: {turbo_method: :patch}, class: "link_button"
-        )%>
-        <%= link_to "物品譲渡の記録はこちら", mypage_path, class: "link_button"%>
-        <%= link_to "友達関係についての情報はここから", friends_user_path(current_user), data: {turbo_method: :get}, class: "link_button" %>
+        <div class="friend_buttons">
+          <%= link_to(
+            current_user.friend_want? ? "友達募集を停止する" : "友達を募集する",
+            friend_want_user_path(current_user),
+            data: {turbo_method: :patch}, class: "link_button"
+          )%>
+          <%= link_to "物品譲渡の記録はこちら", mypage_path, class: "link_button"%>
+          <%= link_to "友達関係についての情報はここから", friends_user_path(current_user), data: {turbo_method: :get}, class: "link_button" %>
+        </div>
       <% elsif current_user.friends_with?(@user)%>
       <%# # 友達登録済み %>
         <%= link_to "友達関係を解消しますか？", friendship_path(@friendship), data: {turbo_method: :delete, turbo_confirm: "本当に友達関係を解消しますか"} , class: "link_button" %>
