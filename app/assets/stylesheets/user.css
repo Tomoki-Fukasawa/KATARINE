@@ -49,10 +49,11 @@
   /* overflow: hidden; */
 }
 .link_button_show{
-  width:8vw;
+  width:16vw;
   border: 2px solid black;
   text-align: center;
   padding: auto;
+  overflow: hidden;
   background-color: blanchedalmond;
 }
 

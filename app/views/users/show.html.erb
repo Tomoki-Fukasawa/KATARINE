@@ -22,24 +22,24 @@
       <div class="friend_buttons">
         <% if current_user == @user %>
           <%= link_to(
-            current_user.friend_want? ? "友達募集を停止する" : "友達を募集する",
+            current_user.friend_want? ? "友達募集停止" : "友達募集",
             friend_want_user_path(current_user),
             data: {turbo_method: :patch}, class: "link_button_show"
           )%>
-          <%= link_to "物品譲渡の記録はこちら", mypage_path, class: "link_button_show"%>
-          <%= link_to "友達関係についての情報はここから", friends_user_path(current_user), data: {turbo_method: :get}, class: "link_button_show" %>
+          <%= link_to "物品譲渡記録", mypage_path, class: "link_button_show"%>
+          <%= link_to "友達関係情報", friends_user_path(current_user), data: {turbo_method: :get}, class: "link_button_show" %>
         <% elsif current_user.friends_with?(@user)%>
         <%# # 友達登録済み %>
-          <%= link_to "友達関係を解消しますか？", friendship_path(@friendship), data: {turbo_method: :delete, turbo_confirm: "本当に友達関係を解消しますか"} , class: "link_button_show" %>
+          <%= link_to "友達関係解消？", friendship_path(@friendship), data: {turbo_method: :delete, turbo_confirm: "本当に友達関係を解消しますか"} , class: "link_button_show" %>
         <% elsif current_user.pending_sent_to?(@user)%>
           <%# # 自分が友達登録申請中 %>
           <p>申請中です。お待ちください</p>
         <% elsif current_user.pending_received_from?(@user)%>
           <%# # 相手から申請中 %>
           <p>承認しますか？</p>
-          <%= link_to "友達関係を承認します", friendship_path(@friendship), data:{turbo_method: :patch},class: "link_button_show" %>
+          <%= link_to "友達関係承認", friendship_path(@friendship), data:{turbo_method: :patch},class: "link_button_show" %>
         <% else%>
-          <%= link_to "友達申請をする",
+          <%= link_to "友達申請",
             friendships_path(friend_id: @user.id),
             data: {turbo_method: :post},
             class: "link_button_show"
