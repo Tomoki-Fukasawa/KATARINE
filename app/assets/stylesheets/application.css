@@ -40,3 +40,7 @@
   overflow: hidden;
   box-sizing: border-box;
 }
+.item-box-img{
+  height: 4vh;
+  width: 4vh;
+}
