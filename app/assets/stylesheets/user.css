@@ -44,7 +44,15 @@
   background-color: blanchedalmond;
 }
 .friend_buttons{
-  display: block;
-  align-items: ;
+  display: flex;
+  flex-direction: column ;
   /* overflow: hidden; */
 }
+.link_button_show{
+  width:8vw;
+  border: 2px solid black;
+  text-align: center;
+  padding: auto;
+  background-color: blanchedalmond;
+}
+
