@@ -7,7 +7,7 @@
     <% @users.each do |user|%>
       <div class="member">
         <div class="user_image">
-          <%= image_tag user.image.variant(resize: '100x100') ,class:"item-box-img" if user.image.attached?%>
+          <%= image_tag user.image.variant(resize_to_limit: [100, 100]) ,class:"item-box-img" if user.image.attached?%>
         </div>
         <div class="friend_detail">
           <div class="member_name">

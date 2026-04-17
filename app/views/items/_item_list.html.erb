@@ -4,7 +4,7 @@
   <% items.each do |item|%>
     <div class="item">
       <div class="item_image">
-        <%= image_tag item.image.variant(resize: '100x100') ,class:"item-box-img" if item.image.attached?%>
+        <%= image_tag item.image.variant(resize_to_limit: [100, 100]) ,class:"item-box-img" if item.image.attached?%>
       </div>
       <div class="item_detail">
         <div class="item_name">

@@ -9,7 +9,7 @@
           <div class="chat_room">
             <div class="chatroom_head">
               <div class="user_image">
-                <%= image_tag chatroom.partner(current_user).image.variant(resize: '100x100') ,class:"item-box-img" if chatroom.partner(current_user).image.attached?%>
+                <%= image_tag chatroom.partner(current_user).image.variant(resize_to_limit: [100, 100]) ,class:"item-box-img" if chatroom.partner(current_user).image.attached?%>
               </div>
               <div class="room_name">
                 <%= chatroom.partner(current_user).nickname %>

@@ -6,7 +6,7 @@
       <%= @item.item_name %>
     </h2>
     <div class="item-img-content">
-      <%= image_tag @item.image.variant(resize: '300x300') ,class:"item-box-img" %>
+      <%= image_tag @item.image.variant(resize_to_limit: [100, 100]) ,class:"item-box-img" %>
       <%if @item.sold_out?%>
         <div class="sold-out">
           <span>なくなりました。申し訳ありません!!</span>
@@ -54,7 +54,7 @@
           <% @item_requests.each do |request|%>
             <li>
               <div class='sender-img-content'>
-                  <%= image_tag request.sender.image.variant(resize: '100x100'), class: "item-img" if request.sender.image.attached? %>
+                  <%= image_tag request.sender.image.variant(resize_to_limit: [100, 100]), class: "item-img" if request.sender.image.attached? %>
                   <%= request.sender.nickname%>
               </div>
               <% if request.waiting?%>

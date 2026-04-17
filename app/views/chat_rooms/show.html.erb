@@ -36,7 +36,7 @@
               <!-- 投稿したメッセージ内容を記述する -->
               <%= message.content %>
             </div>
-            <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
+            <%= image_tag message.image.variant(resize_to_limit: [100, 100]), class: 'message-image' if message.image.attached? %>
           </div>
         </div>
       <% else %>
@@ -56,7 +56,7 @@
               <!-- 投稿したメッセージ内容を記述する -->
               <%= message.content %>
             </div>
-            <%= image_tag message.image.variant(resize: '200x200'), class: 'message-image' if message.image.attached? %>
+            <%= image_tag message.image.variant(resize_to_limit: [100, 100]), class: 'message-image' if message.image.attached? %>
           </div>
         </div>
       <% end %>
