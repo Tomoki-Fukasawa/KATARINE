@@ -68,6 +68,10 @@ Rails.application.configure do
     host: " https://coroner-splicing-unmixed.ngrok-free.dev",
     protocol: "https"
   }
+  Rails.application.routes.default_url_options = {
+    host: "coroner-splicing-unmixed.ngrok-free.dev",
+    protocol: "https"
+  }
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
