@@ -65,7 +65,7 @@ Rails.application.configure do
   config.hosts << ".ngrok-free.dev"
 
   config.action_mailer.default_url_options = {
-    host: "https://coroner-splicing-unmixed.ngrok-free.dev",
+    host: "coroner-splicing-unmixed.ngrok-free.dev",
     protocol: "https"
   }
   Rails.application.routes.default_url_options = {
