@@ -1,16 +1,48 @@
+.chatroom_header{
+  width: 100%;
+  height: 2vh;
+  display: flex;
+  justify-content: space-between;
+}
+.left_header{
+  height: 2vh;
+  font-weight: bold;
+}
+.chatroom_your_name{
+  height: 2vh;
+  font-weight: bold;
+}
+.main_messages{
+  display: block;
+}
+
 .chat_room{
-  border: 2px solid black;
+  /* border: 2px solid black; */
   background-color: blanchedalmond;
   display: flex;
 }
-.message{
+.messages{
+  height: 60vh ;
   display: flex;
+  flex-direction: column;
+  overflow:scroll;
 }
 .my_message{
+  display: flex;
   justify-content: right;
+}
+.upper-message{
+  border: black solid 2px;
+}
+.downer-message{
+  border: black solid 2px;
+}
+.lower-message{
+  border: black solid 2px;
 }
 
 .other_message{
+  display: flex;
   justify-content: left;
 }
 .link_button{
@@ -18,4 +50,7 @@
   text-align: center;
   padding: auto;
   background-color: blanchedalmond;
+}
+.message_form{
+  height: calc(100vh - 16vh -60vh );
 }
