@@ -62,10 +62,10 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.hosts << ".ngrok-free.app"
+  config.hosts << ".ngrok-free.dev"
 
   config.action_mailer.default_url_options = {
-    host: " https://coroner-splicing-unmixed.ngrok-free.dev",
+    host: "https://coroner-splicing-unmixed.ngrok-free.dev",
     protocol: "https"
   }
   Rails.application.routes.default_url_options = {
