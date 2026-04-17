@@ -64,6 +64,10 @@ Rails.application.configure do
 
   config.hosts << ".ngrok-free.app"
 
+  config.action_mailer.default_url_options = {
+    host: " https://coroner-splicing-unmixed.ngrok-free.dev",
+    protocol: "https"
+  }
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
