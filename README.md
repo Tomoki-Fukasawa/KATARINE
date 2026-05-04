@@ -14,11 +14,11 @@
 
 
 # テスト用アカウント
-|nickname|email|password|
-|-----|---------|------|
-|test1|test1@com|111aaa|
-|test2|test2@com|222bbb|
-|test3|test3@com|333ccc|
+|nickname|email            |password|first_name_kanji|last_name_kanji|first_name_kana|last_name_kana|birth_day|
+|--------|-----------------|--------|----------------|---------------|---------------|--------------|--------|
+|test1   |test1@example.com|111aaa  |     "一郎"     |      "佐藤"    |   "イチロウ"  |   "サトウ"    |1991,1,1|
+|test2   |test2@example.com|222bbb  |     "次郎"     |      "田中"    |   "ジロウ"    |   "タナカ"    |1992,2,2|
+|test3   |test3@example.com|333ccc  |     "三郎"     |      "鈴木"    |   "サブロウ"  |   "スズキ"    |1993,3,3|
 
 
 # 利用方法
