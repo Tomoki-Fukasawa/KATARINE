@@ -12,11 +12,14 @@ def create_user(attrs, image_name)
   user = User.find_or_initialize_by(email: attrs[:email])
 
   user.assign_attributes(attrs)
+
+  if File.exist?(image_path) && !user.image.attached?
+    user.image.attach(
+      io: File.open(Rails.root.join("db/fixtures/#{image_name}")),
+      filename: image_name
+    )
+  end
   
-  user.image.attach(
-    io: File.open(Rails.root.join("db/fixtures/#{image_name}")),
-    filename: image_name
-  )
   user.save!
 end
 create_user({
