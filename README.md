@@ -10,7 +10,7 @@
   https://katarine.onrender.com
 
 # Basic認証ID&パスワード  
-  ID：katarine
+  ID：katarine  
   PASS： 3333
 
 
